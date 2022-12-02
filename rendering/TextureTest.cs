@@ -7,21 +7,30 @@ using System.Text;
 
 namespace GameDesignWorkshop
 {
-    internal class Test : Application
+    internal class TextureTest : Application
     {
-        public Test(string windowTitle, int initialWindowWidth, int initialWindowHeight) : base(windowTitle, initialWindowWidth, initialWindowHeight)
+        public TextureTest(string windowTitle, int initialWindowWidth, int initialWindowHeight) : base(windowTitle, initialWindowWidth, initialWindowHeight)
         {
         }
 
         private readonly float[] _verticies = {
-            //positions x, y, z
-            -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //bottom left - red
-            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, //bottom right - green
-            0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f //top - blue
+            //Positions         //Colors
+             0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //top right - Red
+             0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, //bottom right- Green
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, //bottom left - Blue
+            -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f  //top left - White
+        };
+
+        private uint[] _indices =
+        {
+            0, 1, 3,
+            1, 2, 3
         };
 
         private int _vertexBufferObject;
         private int _vertexArrayObject;
+        private int _elementBufferObject;
+
         private Shader shader;
         protected override void Initialise()
         {
@@ -45,6 +54,10 @@ namespace GameDesignWorkshop
 
             GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);
+
+            _elementBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
         }
 
 
@@ -58,7 +71,8 @@ namespace GameDesignWorkshop
             GL.ClearColor(new Color4(0.8f, 0.4f, 0.5f, 1f));
             shader.Use();
             GL.BindVertexArray(_vertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+            //GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
             //Console.WriteLine("R:" + gameTime.ElapsedGameTime.TotalMilliseconds);
             //Console.WriteLine("R:" + gameTime.TotalGameTime.TotalMilliseconds);
         }
