@@ -1,4 +1,6 @@
-﻿using GameDesignWorkshop.me.phoenix.rendering.shaders;
+﻿using GameDesignWorkshop.management;
+using GameDesignWorkshop.me.phoenix.rendering.shaders;
+using GameDesignWorkshop.rendering;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System;
@@ -15,16 +17,16 @@ namespace GameDesignWorkshop
 
         private readonly float[] _verticies = {
             //Positions         //Colors
-             0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //top right - Red
-             0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, //bottom right- Green
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, //bottom left - Blue
-            -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f  //top left - White
+             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, //top right
+             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, //bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, //bottom left
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  //top left
         };
 
         private uint[] _indices =
         {
-            0, 1, 3,
-            1, 2, 3
+            0, 1, 3, //tri 1
+            1, 2, 3 //tri 2
         };
 
         private int _vertexBufferObject;
@@ -32,6 +34,7 @@ namespace GameDesignWorkshop
         private int _elementBufferObject;
 
         private Shader shader;
+        private Texture2D texture;
         protected override void Initialise()
         {
         }
@@ -39,7 +42,7 @@ namespace GameDesignWorkshop
         protected override void LoadContent()
         {
             //ShaderProgramSource src = Shader.ParseShader("me.phoenix/resources/Default.glsl");
-            shader = new Shader(Shader.ParseShader("resources/shaders/Default.glsl"), true);
+            shader = new Shader(Shader.ParseShader("resources/shaders/Texture.glsl"), true);
             //shader.CompileShader();
 
             _vertexBufferObject = GL.GenBuffer();
@@ -49,15 +52,18 @@ namespace GameDesignWorkshop
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);
 
             _elementBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
+
+            texture = ResourceManager.Instance.LoadTexture("resources/textures/sample.png");
+            texture.Use();
         }
 
 

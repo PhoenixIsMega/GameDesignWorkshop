@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "TQ5J5ybCxbOE98hSV6eFwOcvkFR/eTVxANWbq0Tb46bUANdajUBC150T6AFss16Dxe7sgBgK52roDsU6Ui2Z6A==",
+  "dgSpecHash": "bJuh9QA1o22IIZbE/0VEkuibexEwBzCHoFiu2GkFHKfs5IV8nXX8K0cqLTS+B6t0FuTW91vDQ7ORZ4gjUd8d/Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\phoen\\OneDrive - Woking College\\vsNEA\\GameDesignWorkshop\\GameDesignWorkshop\\GameDesignWorkshop.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\phoen\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\phoen\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\phoen\\.nuget\\packages\\opentk\\4.7.5\\opentk.4.7.5.nupkg.sha512",
     "C:\\Users\\phoen\\.nuget\\packages\\opentk.compute\\4.7.5\\opentk.compute.4.7.5.nupkg.sha512",
     "C:\\Users\\phoen\\.nuget\\packages\\opentk.core\\4.7.5\\opentk.core.4.7.5.nupkg.sha512",
@@ -15,6 +17,7 @@
     "C:\\Users\\phoen\\.nuget\\packages\\opentk.windowing.common\\4.7.5\\opentk.windowing.common.4.7.5.nupkg.sha512",
     "C:\\Users\\phoen\\.nuget\\packages\\opentk.windowing.desktop\\4.7.5\\opentk.windowing.desktop.4.7.5.nupkg.sha512",
     "C:\\Users\\phoen\\.nuget\\packages\\opentk.windowing.graphicslibraryframework\\4.7.5\\opentk.windowing.graphicslibraryframework.4.7.5.nupkg.sha512",
+    "C:\\Users\\phoen\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",
     "C:\\Users\\phoen\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
   ],
   "logs": []

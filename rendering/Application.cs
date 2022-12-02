@@ -41,7 +41,7 @@ namespace GameDesignWorkshop
             gameWindow.RenderFrame += (FrameEventArgs eventArgs) =>
             {
                 Render(gameTime);
-                gameWindow.SwapBuffers();
+                gameWindow.SwapBuffers(); // could move
             };
             gameWindow.Resize += (ResizeEventArgs) =>
             {

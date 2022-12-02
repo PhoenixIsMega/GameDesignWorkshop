@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.7.5" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,13 +17,17 @@
     <Folder Include="application\managers\" />
     <Folder Include="application\events\" />
     <Folder Include="application\enums\" />
-    <Folder Include="application\" />
     <Folder Include="resources\sounds\" />
-    <Folder Include="resources\textures\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="resources\shaders\Texture.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="resources\shaders\Default.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\sample.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
