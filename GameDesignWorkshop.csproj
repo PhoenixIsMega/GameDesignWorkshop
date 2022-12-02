@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>GameDesignWorkshop.Program</StartupObject>
+    <ApplicationIcon />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTK" Version="4.7.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="application\listeners\" />
+    <Folder Include="application\managers\" />
+    <Folder Include="application\events\" />
+    <Folder Include="application\enums\" />
+    <Folder Include="application\" />
+    <Folder Include="resources\sounds\" />
+    <Folder Include="resources\textures\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="resources\shaders\Default.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
