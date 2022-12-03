@@ -65,6 +65,7 @@ namespace GameDesignWorkshop.me.phoenix.rendering.shaders
 
             GL.DeleteShader(vertexShaderId);
             GL.DeleteShader(fragmentShaderId);
+
             Compiled = true;
             return true;
         }

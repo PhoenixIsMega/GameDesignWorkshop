@@ -42,7 +42,7 @@ namespace GameDesignWorkshop
 
         protected override void LoadContent()
         {
-            shader = new Shader(Shader.ParseShader("resources/shaders/TextureWithColor.glsl"));
+            shader = new Shader(Shader.ParseShader("resources/shaders/Fader.glsl"));
             if (!shader.CompileShader())
             {
                 Console.WriteLine("Failed to compile shader");
@@ -71,11 +71,14 @@ namespace GameDesignWorkshop
         }
         protected override void Render(GameTime gameTime)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit); //swap?
             GL.ClearColor(new Color4(0.8f, 0.4f, 0.5f, 1f));
             shader.Use();
             vertexArray.Bind();
             indexBuffer.Bind();
+
+            GL.Uniform1(GL.GetUniformLocation(shader.ProgramId, "blackness"), (float)Math.Sin(gameTime.TotalGameTime.TotalMilliseconds) / (2.0f) + 0.5f);
+
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
         }
     }

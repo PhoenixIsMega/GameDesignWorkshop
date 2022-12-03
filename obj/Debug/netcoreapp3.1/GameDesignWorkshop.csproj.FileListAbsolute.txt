@@ -37,3 +37,4 @@ C:\Users\phoen\OneDrive - Woking College\vsNEA\GameDesignWorkshop\GameDesignWork
 C:\Users\phoen\OneDrive - Woking College\vsNEA\GameDesignWorkshop\GameDesignWorkshop\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\phoen\OneDrive - Woking College\vsNEA\GameDesignWorkshop\GameDesignWorkshop\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\phoen\OneDrive - Woking College\vsNEA\GameDesignWorkshop\GameDesignWorkshop\bin\Debug\netcoreapp3.1\resources\shaders\TextureWithColor.glsl
+C:\Users\phoen\OneDrive - Woking College\vsNEA\GameDesignWorkshop\GameDesignWorkshop\bin\Debug\netcoreapp3.1\resources\shaders\Fader.glsl
