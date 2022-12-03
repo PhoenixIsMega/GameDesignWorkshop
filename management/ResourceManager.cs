@@ -18,7 +18,7 @@ namespace GameDesignWorkshop.management
             {
                 lock(loc)
                 {
-                    if (instance == null)
+                    if (instance is null)
                     {
                         instance = new ResourceManager();
                     }

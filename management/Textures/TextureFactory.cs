@@ -14,7 +14,7 @@ namespace GameDesignWorkshop.management.Textures
         public static Texture2D Load(string textureName)
         {
             int handle = GL.GenTexture();
-            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.ActiveTexture(TextureUnit.Texture0); //could change
             GL.BindTexture(TextureTarget.Texture2D, handle);
             using var image = new Bitmap(textureName);
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);

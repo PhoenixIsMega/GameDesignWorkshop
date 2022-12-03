@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using GameDesignWorkshop.management;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Common.Input;
@@ -23,12 +24,17 @@ namespace GameDesignWorkshop
             this.InitialWindowHeight = initialWindowHeight;
             this._nativeWindowSettings.Size = new Vector2i(initialWindowWidth, initialWindowHeight);
             this._nativeWindowSettings.Title = windowTitle;
+            this._nativeWindowSettings.API = ContextAPI.OpenGL;
+
+            this._gameWindowSettings.RenderFrequency = 60.0; //60 fps
+            this._gameWindowSettings.UpdateFrequency = 60.0;
         }
 
         public void Start()
         {
             Initialise();
-            GameWindow gameWindow = new GameWindow(_gameWindowSettings, _nativeWindowSettings);
+
+            GameWindow gameWindow = DisplayManager.Instance.CreateWindow(_gameWindowSettings, _nativeWindowSettings);
             GameTime gameTime = new GameTime();
             gameWindow.Load += LoadContent;
             gameWindow.UpdateFrame += (FrameEventArgs eventArgs) =>
