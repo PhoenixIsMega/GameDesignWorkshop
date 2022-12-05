@@ -7,6 +7,9 @@ using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Media;
+using GameDesignWorkshop.resources.sounds;
+using NAudio.Wave;
 
 namespace GameDesignWorkshop
 {
@@ -36,8 +39,24 @@ namespace GameDesignWorkshop
 
         private Shader shader;
         private Texture2D texture;
+        private WaveOut waveOut;
         protected override void Initialise()
         {
+            Console.WriteLine("Starting...");
+            if (waveOut == null)
+            {
+                WaveFileReader reader = new WaveFileReader("resources/sounds/ACFF.wav");
+                LoopStream loop = new LoopStream(reader);
+                waveOut = new WaveOut();
+                waveOut.Init(loop);
+                waveOut.Play();
+            }
+            else
+            {
+                waveOut.Stop();
+                waveOut.Dispose();
+                waveOut = null;
+            }
         }
 
         protected override void LoadContent()
@@ -64,10 +83,21 @@ namespace GameDesignWorkshop
             texture = ResourceManager.Instance.LoadTexture("resources/textures/sample.png");
             texture.Use();
         }
-
+        bool played = false;
 
         protected override void Update(GameTime gameTime)
         {
+            //Console.WriteLine(Math.Floor(gameTime.TotalGameTime.TotalMilliseconds));
+            if (Math.Floor(gameTime.TotalGameTime.TotalMilliseconds) % 3 == 0 && !played)
+            {
+                var exit = new CachedSound("resources/sounds/Exit.wav");
+                //AudioPlaybackEngine.Instance.PlaySound(exit);
+                played = true;
+            }
+            if (Math.Floor(gameTime.TotalGameTime.TotalMilliseconds) % 3 == 2 && played)
+            {
+                played = false;
+            }
         }
         protected override void Render(GameTime gameTime)
         {

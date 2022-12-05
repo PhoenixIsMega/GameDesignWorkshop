@@ -12,6 +12,8 @@ namespace GameDesignWorkshop.me.phoenix.rendering.shaders
         private ShaderProgramSource shaderProgramSource { get; }
         public bool Compiled { get; private set; }
 
+        private readonly IDictionary<string, int> uniforms = new Dictionary<string, int>();
+
         public Shader(ShaderProgramSource shaderProgramSource, bool compile = false)
         {
             this.shaderProgramSource = shaderProgramSource;
@@ -66,9 +68,20 @@ namespace GameDesignWorkshop.me.phoenix.rendering.shaders
             GL.DeleteShader(vertexShaderId);
             GL.DeleteShader(fragmentShaderId);
 
+
+            GL.GetProgram(ProgramId, GetProgramParameterName.ActiveUniforms, out var totalUniforms);
+            for (int i = 0; i < totalUniforms; i++)
+            {
+                string key = GL.GetActiveUniform(ProgramId, i, out _, out _);
+                int location = GL.GetUniformLocation(ProgramId, key);
+                uniforms.Add(key, location);
+            }
+
             Compiled = true;
             return true;
         }
+
+        public int GetUniformLocation(string uniformName) => uniforms[uniformName];
 
         public void Use()
         {

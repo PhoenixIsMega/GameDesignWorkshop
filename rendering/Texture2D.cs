@@ -9,9 +9,23 @@ namespace GameDesignWorkshop.rendering
     {
         private bool disposed;
         public int Handle { get; private set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public TextureUnit TextureUnit { get; set; } = TextureUnit.Texture0;
         public Texture2D(int handle)
         {
             this.Handle = handle;
+        }
+
+        public Texture2D(int handle, int width, int height) : this(handle)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public Texture2D(int handle, int width, int height, TextureUnit textureSlot) : this(handle, width, height)
+        {
+            TextureUnit = textureSlot; //change names to slot
         }
 
         ~Texture2D() {

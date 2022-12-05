@@ -8,7 +8,7 @@ namespace GameDesignWorkshop
     {
         public static void Main(string[] args)
         {
-            Application app = new TextureWithColors("Game Design Workshop by Phoenix Thomson", 800, 600);
+            Application app = new MultipleTextures("Game Design Workshop by Phoenix Thomson", 800, 800);
             app.Start();
         }
     }

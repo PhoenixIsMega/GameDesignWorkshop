@@ -11,10 +11,17 @@ namespace GameDesignWorkshop.management.Textures
 {
     public static class TextureFactory
     {
+        private static int textureCursor = 0;
         public static Texture2D Load(string textureName)
         {
             int handle = GL.GenTexture();
-            GL.ActiveTexture(TextureUnit.Texture0); //could change
+            Enum.TryParse(typeof(TextureUnit), $"Texture{textureCursor}", out var result);
+            if (result == null)
+            {
+                throw new Exception($"Exceeded maz texturee slots opengl can natively support count: {textureCursor}");
+            }
+            TextureUnit textureUnit = ((TextureUnit)result);
+            GL.ActiveTexture(textureUnit); //could change
             GL.BindTexture(TextureTarget.Texture2D, handle);
             using var image = new Bitmap(textureName);
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -35,7 +42,8 @@ namespace GameDesignWorkshop.management.Textures
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             //allows for textures to be sampled from lowres texture if far away (more useful for 3d but allows expansion and still worth doing as not difficult)
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            return new Texture2D(handle);
+            textureCursor++;
+            return new Texture2D(handle, image.Width, image.Height, textureUnit);
         }
     }
 }
