@@ -18,107 +18,109 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="application\listeners\" />
-    <Folder Include="application\managers\" />
-    <Folder Include="application\events\" />
-    <Folder Include="application\enums\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="resources\shaders\Fader.glsl">
+    <None Update="Assets\shaders\Fader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\TextureWithColorAndTextureSlot.glsl">
+    <None Update="Assets\shaders\TextureWithColorAndTextureSlotAndFader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\TextureWithColor.glsl">
+    <None Update="Assets\shaders\TextureWithColorAndTextureSlot.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\Texture.glsl">
+    <None Update="Assets\shaders\TextureWithColor.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\Default.glsl">
+    <None Update="Assets\shaders\Texture.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\sounds\ACFF.wav">
+    <None Update="Assets\shaders\Default.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\sounds\Exit.wav">
+    <None Update="Assets\sounds\ACFF.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\sounds\LoopedMarioWorld.wav">
+    <None Update="Assets\sounds\Dmajor.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\alienBeige.png">
+    <None Update="Assets\sounds\Dmajor7.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\alienBlue.png">
+    <None Update="Assets\sounds\Exit.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\alienGreen.png">
+    <None Update="Assets\sounds\LoopedMarioWorld.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\alienPink.png">
+    <None Update="Assets\textures\platformer\alienBeige.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\aliens.png">
+    <None Update="Assets\textures\platformer\alienBlue.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\alienYellow.png">
+    <None Update="Assets\textures\platformer\alienGreen.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\bg_castle.png">
+    <None Update="Assets\textures\platformer\alienPink.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\bg_desert.png">
+    <None Update="Assets\textures\platformer\aliens.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\bg_grasslands.png">
+    <None Update="Assets\textures\platformer\alienYellow.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\bg_shroom.png">
+    <None Update="Assets\textures\platformer\bg_castle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\candy_sheet.png">
+    <None Update="Assets\textures\platformer\bg_desert.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\enemies.png">
+    <None Update="Assets\textures\platformer\bg_grasslands.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\enemies_spritesheet.png">
+    <None Update="Assets\textures\platformer\bg_shroom.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\hud_spritesheet.png">
+    <None Update="Assets\textures\platformer\candy_sheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\ice_sheet.png">
+    <None Update="Assets\textures\platformer\enemies.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\items_spritesheet.png">
+    <None Update="Assets\textures\platformer\enemies_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\p1_spritesheet.png">
+    <None Update="Assets\textures\platformer\hud_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\p2_spritesheet.png">
+    <None Update="Assets\textures\platformer\ice_sheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\p3_spritesheet.png">
+    <None Update="Assets\textures\platformer\items_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\rsheet.png">
+    <None Update="Assets\textures\platformer\p1_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\sample.png">
+    <None Update="Assets\textures\platformer\p2_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\sheet.png">
+    <None Update="Assets\textures\platformer\p3_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\spritesheet.png">
+    <None Update="Assets\textures\platformer\rsheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resources\textures\tiles_spritesheet.png">
+    <None Update="Assets\textures\platformer\sample.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\textures\platformer\sheet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\textures\platformer\spritesheet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\textures\platformer\tiles_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
