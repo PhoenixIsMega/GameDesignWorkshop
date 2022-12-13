@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameDesignWorkshop.resources.sounds
+namespace GameDesignWorkshop.Scripts.Engine.Sound
 {
-    class CachedSoundSampleProvider : ISampleProvider
+    class CachedSoundSampleProviderHelperClass : ISampleProvider
     {
-        private readonly OLDCachedSound cachedSound;
+        private readonly CachedSoundEffect cachedSound;
         private long position;
 
-        public CachedSoundSampleProvider(OLDCachedSound cachedSound)
+        public CachedSoundSampleProviderHelperClass(CachedSoundEffect cachedSound)
         {
             this.cachedSound = cachedSound;
         }

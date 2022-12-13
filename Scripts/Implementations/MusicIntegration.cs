@@ -6,6 +6,7 @@ using GameDesignWorkshop.rendering;
 using GameDesignWorkshop.rendering.buffers;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -55,8 +56,12 @@ namespace GameDesignWorkshop
         //OnEnable
         protected override void Initialise()
         {
-            //load classManager
+            //load classManager, which also loads all other non-static classes, that can then be referenced
             this.ClassManager = new GameClassManager();
+
+            this.ClassManager.GetMusicManager().Initialise(); //dispose at end aswell
+            this.ClassManager.GetSoundEffectManager().LoadSound("exit","Assets/sounds/exit.wav");
+            //this.ClassManager.GetSoundEffectManager().LoadSound("exit", "Assets/sounds/exit.wav");
 
             float[] uvCoords = new SpritesheetManager().getSpriteSheetUV(spritesheetProperties0, 1, 5);
             Console.WriteLine(uvCoords[0].ToString() + '+' + uvCoords[1].ToString());
@@ -99,10 +104,15 @@ namespace GameDesignWorkshop
             //texture.Use();
         }
 
-
         protected override void Update(GameTime gameTime)
         {
-            
+            KeyboardState input = gameWindow.KeyboardState;
+
+            if (input.IsKeyPressed(Keys.F))
+            {
+                Console.WriteLine("INput");
+                ClassManager.GetSoundEffectManager().PlaySoundEffect("exit"); //make into enum!!
+            }
         }
 
         protected override void Render(GameTime gameTime)

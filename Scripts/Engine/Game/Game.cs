@@ -4,6 +4,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 
 namespace GameDesignWorkshop
@@ -16,6 +17,8 @@ namespace GameDesignWorkshop
 
         private GameWindowSettings _gameWindowSettings = GameWindowSettings.Default;
         private NativeWindowSettings _nativeWindowSettings = NativeWindowSettings.Default;
+
+        protected GameWindow gameWindow;
 
         public Game(string windowTitle, int initialWindowWidth, int initialWindowHeight)
         {
@@ -34,7 +37,7 @@ namespace GameDesignWorkshop
         {
             Initialise();
 
-            GameWindow gameWindow = DisplayManager.Instance.CreateWindow(_gameWindowSettings, _nativeWindowSettings);
+            gameWindow = DisplayManager.Instance.CreateWindow(_gameWindowSettings, _nativeWindowSettings);
             GameTime gameTime = new GameTime();
             gameWindow.Load += LoadContent;
             gameWindow.UpdateFrame += (FrameEventArgs eventArgs) =>
@@ -43,6 +46,18 @@ namespace GameDesignWorkshop
                 gameTime.ElapsedGameTime = TimeSpan.FromMilliseconds(time);
                 gameTime.TotalGameTime += TimeSpan.FromMilliseconds(time);
                 Update(gameTime);
+
+                if (!gameWindow.IsFocused) // check to see if the window is focused
+                {
+                    return;
+                }
+
+                /*KeyboardState input = gameWindow.KeyboardState;
+
+                if (input.IsKeyPressed(Keys.F))
+                {
+                    Console.WriteLine("INput");
+                }*/
             };
             gameWindow.RenderFrame += (FrameEventArgs eventArgs) =>
             {
@@ -53,6 +68,7 @@ namespace GameDesignWorkshop
             {
                 GL.Viewport(0, 0, gameWindow.Size.X, gameWindow.Size.Y);
             };
+
             //gameWindow.Cursor = new MouseCursor(0, 0, 10, 1, new byte[] { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, });
             gameWindow.Run();
         }

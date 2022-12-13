@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -70,6 +71,7 @@ namespace GameDesignWorkshop.resources.sounds
                     // loop
                     sourceStream.Position = 0;
                     double timeLeft = sourceStream.TotalTime.TotalMilliseconds - sourceStream.CurrentTime.TotalMilliseconds;
+                    //var fade = new FadeInOutSampleProvider(this , true);
                     Console.WriteLine("Looping Track...");
                 }
                 totalBytesRead += bytesRead;
