@@ -38,6 +38,8 @@ namespace GameDesignWorkshop.resources.sounds
 
             outputDevice.Init(mixer);
             outputDevice.Play();
+
+            
         }
 
         public IWavePlayer GetMusicPlayer() { return outputDevice; }

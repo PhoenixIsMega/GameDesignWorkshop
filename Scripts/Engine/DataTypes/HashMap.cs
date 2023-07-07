@@ -6,6 +6,7 @@ namespace GameDesignWorkshop.game
 {
     public class HashMap<TKey, TValue>
     {
+        //Check this out! http://javaexplorer03.blogspot.com/2015/10/create-own-hashmap.html
         // A class to store a key-value pair
         private class KeyValuePair
         {

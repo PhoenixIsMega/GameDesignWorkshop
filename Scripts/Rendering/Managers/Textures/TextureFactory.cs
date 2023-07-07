@@ -18,7 +18,7 @@ namespace GameDesignWorkshop.management.Textures
             Enum.TryParse(typeof(TextureUnit), $"Texture{textureCursor}", out var result);
             if (result == null)
             {
-                throw new Exception($"Exceeded maz texturee slots opengl can natively support count: {textureCursor}");
+                throw new Exception($"Exceeded max texture slots opengl can natively support count: {textureCursor}");
             }
             TextureUnit textureUnit = ((TextureUnit)result);
             GL.ActiveTexture(textureUnit); //could change

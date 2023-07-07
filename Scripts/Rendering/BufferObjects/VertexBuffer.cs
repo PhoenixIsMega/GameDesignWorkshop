@@ -13,7 +13,7 @@ namespace GameDesignWorkshop.rendering.buffers
         {
             bufferID = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, bufferID);
-            GL.BufferData(BufferTarget.ArrayBuffer, verticies.Length * sizeof(float), verticies, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, verticies.Length * sizeof(float), verticies, BufferUsageHint.DynamicDraw);
         }
 
         public void Bind()

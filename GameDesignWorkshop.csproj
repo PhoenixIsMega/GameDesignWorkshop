@@ -24,6 +24,12 @@
     <None Update="Assets\shaders\TextureWithColorAndTextureSlotAndFader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\shaders\TextureWithColorAndTextureSlotAndFaderTwo.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\shaders\ViewportTextureWithTransparency.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\shaders\TextureWithColorAndTextureSlot.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -123,6 +129,11 @@
     <None Update="Assets\textures\platformer\tiles_spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Scripts\Engine\Listeners\" />
+    <Folder Include="Scripts\Game\UI\" />
   </ItemGroup>
 
 </Project>

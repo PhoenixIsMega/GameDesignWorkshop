@@ -28,5 +28,5 @@ uniform float blackness;
 void main() 
 {
 	int index = int(texIndex);
-	outputColor = texture(u_Texture[index], texCoord) * color * blackness;
+	outputColor = texture(u_Texture[index], texCoord) * color * (1.0 - blackness);
 }

@@ -23,6 +23,7 @@ namespace GameDesignWorkshop.game.managers
         {
             int spriteY = spritesheetProperties.bottomMargin + ((spritesheetProperties.tileSizeY + spritesheetProperties.verticalSpacing) * indexY);
             int spriteX = spritesheetProperties.leftMargin + ((spritesheetProperties.tileSizeX + spritesheetProperties.horizontalSpacing) * indexX);
+            Console.WriteLine(spriteX + " " + spriteY);
             float[] uvCoords = new float[2];
             uvCoords[0] = (float)spriteX / (float)spritesheetProperties.imageSizeX;
             uvCoords[1] = (float)spriteY / (float)spritesheetProperties.imageSizeY;

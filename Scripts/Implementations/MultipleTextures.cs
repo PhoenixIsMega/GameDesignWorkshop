@@ -105,6 +105,11 @@ namespace GameDesignWorkshop
             
         }
 
+        protected override void UnloadContent()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void Render(GameTime gameTime)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit); //swap?

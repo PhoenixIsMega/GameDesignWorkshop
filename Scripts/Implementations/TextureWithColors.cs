@@ -112,5 +112,10 @@ namespace GameDesignWorkshop
 
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
         }
+
+        protected override void UnloadContent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

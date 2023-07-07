@@ -107,5 +107,10 @@ namespace GameDesignWorkshop
             //Console.WriteLine("R:" + gameTime.ElapsedGameTime.TotalMilliseconds);
             //Console.WriteLine("R:" + gameTime.TotalGameTime.TotalMilliseconds);
         }
+
+        protected override void UnloadContent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -28,6 +28,8 @@ namespace GameDesignWorkshop
             this._nativeWindowSettings.Size = new Vector2i(initialWindowWidth, initialWindowHeight);
             this._nativeWindowSettings.Title = windowTitle;
             this._nativeWindowSettings.API = ContextAPI.OpenGL;
+            this._nativeWindowSettings.StartFocused = true;
+            this._nativeWindowSettings.StartVisible = false;
 
             this._gameWindowSettings.RenderFrequency = 60.0; //60 fps
             this._gameWindowSettings.UpdateFrequency = 60.0;
@@ -36,6 +38,7 @@ namespace GameDesignWorkshop
         public void Start()
         {
             Initialise();
+
 
             gameWindow = DisplayManager.Instance.CreateWindow(_gameWindowSettings, _nativeWindowSettings);
             GameTime gameTime = new GameTime();
@@ -47,17 +50,10 @@ namespace GameDesignWorkshop
                 gameTime.TotalGameTime += TimeSpan.FromMilliseconds(time);
                 Update(gameTime);
 
-                if (!gameWindow.IsFocused) // check to see if the window is focused
+                if (!gameWindow.IsFocused)
                 {
                     return;
                 }
-
-                /*KeyboardState input = gameWindow.KeyboardState;
-
-                if (input.IsKeyPressed(Keys.F))
-                {
-                    Console.WriteLine("INput");
-                }*/
             };
             gameWindow.RenderFrame += (FrameEventArgs eventArgs) =>
             {
@@ -68,14 +64,18 @@ namespace GameDesignWorkshop
             {
                 GL.Viewport(0, 0, gameWindow.Size.X, gameWindow.Size.Y);
             };
+            gameWindow.Unload += UnloadContent;
 
-            //gameWindow.Cursor = new MouseCursor(0, 0, 10, 1, new byte[] { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, });
+            gameWindow.IsVisible = true;
+
             gameWindow.Run();
         }
 
         protected abstract void Initialise();
 
         protected abstract void LoadContent();
+
+        protected abstract void UnloadContent();
 
         protected abstract void Update(GameTime gameTime);
 

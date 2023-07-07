@@ -37,21 +37,7 @@ namespace GameDesignWorkshop.Scripts.Engine.Managers
                 return;
             }
 
-            // Create a new WaveOut object to play the sound effect
-            //WaveOut sfxPlayer = new WaveOut(); //could be audioclip
-            // Set the volume of the WaveOut object
-            //sfxPlayer.Volume = _soundManager.masterVolume * _soundManager.sfxVolume * sound.Volume;
-            // Set the WaveOut object's output to the CachedSound's audio data
-            //sfxPlayer.Init(sound);
-            // Play the sound
-            //sfxPlayer.Play();
-
             _soundManager.AddMixerInput(new CachedSoundSampleProviderHelperClass(sound));
-
-            //or just add to mixe
-
-            //Dispose of the object after use
-            //sfxPlayer.Dispose();
         }
 
     }
