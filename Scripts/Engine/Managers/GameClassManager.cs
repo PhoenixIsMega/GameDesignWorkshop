@@ -1,11 +1,8 @@
-﻿using GameDesignWorkshop.management.Textures;
-using GameDesignWorkshop.resources.sounds;
-using GameDesignWorkshop.Scripts.Engine.Managers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameDesignWorkshop.game.managers
+namespace GameDesignLearningAppPrototype.Scripts.Engine.Managers
 {
     class GameClassManager
     {
@@ -17,30 +14,8 @@ namespace GameDesignWorkshop.game.managers
         //Other classes that need initialising
         //private readonly SpritesheetManager _spritesheetManager;
 
-        private readonly SoundManager _soundManager;
-        private readonly SoundEffectManager _soundEffectManager;
-        private readonly MusicManager _musicManager;
-
         public GameClassManager()
         {
-            this._soundManager = new SoundManager();
-            this._soundEffectManager = new SoundEffectManager(this._soundManager);
-            this._musicManager = new MusicManager(this._soundManager);
-        }
-
-        public SoundManager GetSoundManager()
-        {
-            return _soundManager;
-        }
-
-        public SoundEffectManager GetSoundEffectManager()
-        {
-            return _soundEffectManager;
-        }
-
-        public MusicManager GetMusicManager()
-        {
-            return _musicManager;
         }
     }
 }

@@ -1,15 +1,14 @@
-﻿using GameDesignWorkshop.game.managers;
+﻿using GameDesignLearningAppPrototype.Scripts.Engine;
+using GameDesignLearningAppPrototype.Scripts.Engine.Versions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GameDesignWorkshop
+namespace GameDesignLearningAppPrototype
 {
     class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            Game game = new RefactorNumeroUno("Game Design Workshop by Phoenix Thomson", 800, 800);
+            Engine game = new PrototypeVersion1("Game Design Workshop by Phoenix Thomson", 1280, 720);
             game.Start();
         }
     }
