@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects
+﻿namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects
 {
     public interface IBuffer
     {

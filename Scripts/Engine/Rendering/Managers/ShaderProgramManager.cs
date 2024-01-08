@@ -3,7 +3,6 @@ using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection.Metadata;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
 {
@@ -22,33 +21,6 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
             {
                 CompileShader();
             }
-        }
-
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                GL.DeleteProgram(ProgramId);
-
-                disposedValue = true;
-            }
-        }
-
-        ~ShaderProgramManager()
-        {
-            if (disposedValue == false)
-            {
-                Console.WriteLine("GPU Resource leak! Did you forget to call Dispose()?");
-            }
-        }
-
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         public bool CompileShader()
@@ -161,7 +133,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
         public static ShaderProgramSource ParseShader(string filePath)
         {
             string[] shaderSource = new string[2];
-            Enums.ShaderType shaderType = Enums.ShaderType.NONE;
+            Enums.ShaderIndex shaderType = Enums.ShaderIndex.NONE;
             var allLines = File.ReadAllLines(filePath);
             foreach (string line in allLines)
             {
@@ -169,11 +141,11 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
                 {
                     if (line.ToLower().Contains("fragment"))
                     {
-                        shaderType = Enums.ShaderType.FRAGMENT;
+                        shaderType = Enums.ShaderIndex.FRAGMENT;
                     }
                     else if (line.ToLower().Contains("vertex"))
                     {
-                        shaderType = Enums.ShaderType.VERTEX;
+                        shaderType = Enums.ShaderIndex.VERTEX;
                     }
                     else
                     {
@@ -187,7 +159,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
                     shaderSource[(int)shaderType] += (line + Environment.NewLine);
                 }
             }
-            return new ShaderProgramSource(shaderSource[(int)Enums.ShaderType.VERTEX], shaderSource[(int)Enums.ShaderType.FRAGMENT]);
+            return new ShaderProgramSource(shaderSource[(int)Enums.ShaderIndex.VERTEX], shaderSource[(int)Enums.ShaderIndex.FRAGMENT]);
         }
     }
 }

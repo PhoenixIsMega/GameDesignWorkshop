@@ -3,14 +3,14 @@ using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
 using OpenTK.Graphics.OpenGL4;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
-    class PlayerLayer : RenderLayer
+    class PlayerLayer : RenderLayerBase
     {
-        public PlayerLayer(string shaderPath) : base(shaderPath) { }
+        public PlayerLayer(string shaderPath) : base(shaderPath) {
+            textureSlotsUsed = 1;
+        }
         protected override BufferLayout LoadBufferLayout()
         {
             BufferLayout bufferLayout = new BufferLayout();
@@ -21,21 +21,24 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
             return bufferLayout;
         }
 
-        protected override void LoadUniforms() {
+        protected override void LoadUniforms()
+        {
             GL.Uniform1(GL.GetUniformLocation(shader.ProgramId, "blackness"), 1.0f); // Set the "blackness" uniform value in the shader
-            CameraManager.Instance.setCameraUniform(shader.ProgramId);
-            CameraManager.Instance.setCameraScaleUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId);
         }
 
-        protected override void LoadTextures() {
+        protected override void LoadTextures()
+        {
             var textureSampleUniformLocation = shader.GetUniformLocation("u_Texture[0]");
-            int[] samplers = new int[2] { 0, 1 };
-            GL.Uniform1(textureSampleUniformLocation, 2, samplers);
+            int[] samplers = new int[1] { 0};
+            GL.Uniform1(textureSampleUniformLocation, 1, samplers);
 
             ResourceManager.Instance.LoadTexture("Assets/Textures/Platformer/characters_packed.png");
         }
 
-        protected override void UpdateArrayBuffer(float[] verticies){
+        protected override void UpdateArrayBuffer(float[] verticies, bool indexUpdate)
+        {
             GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, verticies.Length * sizeof(float), verticies); // Update the vertex buffer data
         }
     }

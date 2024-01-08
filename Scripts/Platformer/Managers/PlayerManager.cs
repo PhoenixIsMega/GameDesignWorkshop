@@ -1,9 +1,6 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
-using OpenTK.Windowing.Desktop;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Players;
+using OpenTK.Windowing.Desktop;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 {
@@ -12,7 +9,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
         private Player player = new Player();
         public PlayerManager()
         {
-            player.Move(500, 200);
+            player.Move(0, 0);
         }
 
         public void Update(GameWindow gameWindow, GameTime gameTime)
@@ -30,14 +27,14 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             return 1;
         }
 
-        public (float, float) getPlayerPosition()
+        public (float, float) GetPlayerPosition()
         {
-            return player.getPosition();
+            return player.GetPosition();
         }
 
-        public (float, float) getPlayerSize()
+        public (float, float) GetPlayerSize()
         {
-            return player.getSize();
+            return player.GetSize();
         }
     }
 }

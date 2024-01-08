@@ -1,33 +1,33 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Components;
 using OpenTK.Windowing.Desktop;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace GameDesignLearningAppPrototype.Scripts.Platformer
+namespace GameDesignLearningAppPrototype.Scripts.Platformer.GameObjects
 {
-    public abstract class GameObject
+    public abstract class GameObjectBase
     {
         public Transform transform;
-        protected List<Component> components;
-        protected List<GameObject> children;
+        protected List<ComponentBase> components;
+        protected List<GameObjectBase> children;
 
-        public GameObject()
+        public GameObjectBase()
         {
-            components = new List<Component>();
+            components = new List<ComponentBase>();
             transform = AddComponent<Transform>();
         }
 
-        public T AddComponent<T>() where T : Component, new()
+        public T AddComponent<T>() where T : ComponentBase, new()
         {
-            //add check for dupes
+            //check for duplicate components
+
+
             T component = new T();
             components.Add(component);
             return component;
         }
 
-        public T GetComponent<T>() where T : Component //assumes dupes arent added
+        public T GetComponent<T>() where T : ComponentBase //assumes dupes arent added
         {
             foreach (var component in components)
             {

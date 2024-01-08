@@ -1,7 +1,4 @@
-﻿using GameDesignLearningAppPrototype.Scripts.Engine.Managers;
-using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects;
-using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers;
-using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
+﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers.RenderLayerManagers;
 using GameDesignLearningAppPrototype.Scripts.Menu.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Tiles;
@@ -10,12 +7,10 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
-using System.Collections.Generic;
-using ErrorCode = OpenTK.Graphics.OpenGL4.ErrorCode;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
 {
-    internal class PrototypeVersion1 : Engine
+    internal class PrototypeVersion1 : EngineBase
     {
         public PrototypeVersion1(string windowTitle, int initialWindowWidth, int initialWindowHeight) : base(windowTitle, initialWindowWidth, initialWindowHeight)
         {
@@ -28,39 +23,41 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
 
         private LayerManager layerManager;
 
-        //private CameraManager cameraManager;
-
-        //OnEnable
+        //make camera manager not a singleton
         protected override void Initialise()
         {
-            //Console.WriteLine("Initalise");
+            Console.WriteLine("Initalise");
             playerManager = new PlayerManager();
             layerManager = new LayerManager();
-            particleManager = new ParticleManager();
+            particleManager = new ParticleManager(this);
             tileManager = new TileManager();
-            cursorManager = new CursorManager();
-            //cameraManager = new CameraManager();
+            cursorManager = new CursorManager(tileManager);
         }
-
-        //runs once upon load? use to load in textures i think Occurs before the window is displayed for the first time.
 
         protected override void LoadContent()
         {
-            //Console.WriteLine("Load");
+            Console.WriteLine("Load");
             layerManager.LoadContent(playerManager, particleManager, tileManager, cursorManager);
             gameWindow.CursorState = OpenTK.Windowing.Common.CursorState.Hidden;
         }
 
-        protected override void Update(GameTime gameTime)//text
+
+        protected override void Update(GameTime gameTime)
         {
-            //Console.WriteLine("Update");
+            KeyboardState input = gameWindow.KeyboardState;
+            if (input.IsKeyDown(Keys.Escape))
+            {
+                gameWindow.Close();
+            }
+
             playerManager.Update(gameWindow, gameTime);
             particleManager.Update(gameWindow, gameTime);
             cursorManager.Update(gameWindow, gameTime);
-            //CameraManager.Instance.Update(gameWindow, gameTime);
+            tileManager.Update(gameWindow, gameTime);
+            CameraManager.Instance.Update(gameWindow, gameTime);
 
-            //please for the love of god update this
-            CameraManager.Instance.setCameraPosition(playerManager.getPlayerPosition().Item1 - gameWindow.Size.X/2 + playerManager.getPlayerSize().Item1/2, playerManager.getPlayerPosition().Item2 - gameWindow.Size.Y/2 + playerManager.getPlayerSize().Item2/2);
+            //please update this later
+            CameraManager.Instance.SetCameraPosition(getPlayerLocation().Item1 - gameWindow.Size.X / 2 + playerManager.GetPlayerSize().Item1 / 2, getPlayerLocation().Item2 - gameWindow.Size.Y / 2 + playerManager.GetPlayerSize().Item2 / 2);
         }
 
         float scale = 1;
@@ -68,36 +65,31 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             //Console.WriteLine("Mouse Wheel");
+
+            //ZOOM
+            /*
             float delta = e.OffsetY;
             scale *= 1 + (delta / 30);
-            Console.WriteLine(scale);
-            CameraManager.Instance.setCameraScale(scale);
+            //Console.WriteLine(scale);
+            CameraManager.Instance.SetCameraScale(scale);
+            */
+
+            cursorManager.cursor.tileType = cursorManager.cursor.tileType + (int)e.OffsetY;
+            if (cursorManager.cursor.tileType < TileType.AIR)
+            {
+                cursorManager.cursor.tileType = TileType.AIR;
+            } else if (cursorManager.cursor.tileType > TileType.WATERFALL)
+            {
+                cursorManager.cursor.tileType = TileType.WATERFALL;
+            }
         }
 
         protected override void Render(GameTime gameTime)
         {
-            //Console.WriteLine("Render");
-            GL.Clear(ClearBufferMask.ColorBufferBit); // Clear the color buffer
-            ErrorCode errorCode = GL.GetError();
-            if (errorCode != ErrorCode.NoError)
-            {
-                Console.WriteLine($"OpenGL Error DE: {errorCode}");
-                // You can handle the error here, log it, or take other appropriate actions.
-            }
-            GL.ClearColor(new Color4(0.35f, 0.75f, 0.45f, 1f)); // Set the clear color
-            ErrorCode errorCode2 = GL.GetError();
-            if (errorCode != ErrorCode.NoError)
-            {
-                Console.WriteLine($"OpenGL Error DE: {errorCode}");
-                // You can handle the error here, log it, or take other appropriate actions.
-            }
+            GL.Clear(ClearBufferMask.ColorBufferBit); // Clear the color 
+
             layerManager.Render(playerManager, particleManager, tileManager, cursorManager);
-            ErrorCode errorCode3 = GL.GetError();
-            if (errorCode != ErrorCode.NoError)
-            {
-                Console.WriteLine($"OpenGL Error DE: {errorCode}");
-                // You can handle the error here, log it, or take other appropriate actions.
-            }
+
 
         }
 
@@ -105,6 +97,11 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
         {
             //unload and dispose of everything here
             Console.WriteLine("Unload");
+        }
+
+        public (float, float) getPlayerLocation()
+        {
+            return playerManager.GetPlayerPosition();
         }
     }
 }

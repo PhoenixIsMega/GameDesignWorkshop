@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Sources
+﻿namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Sources
 {
     public class ShaderProgramSource
     {

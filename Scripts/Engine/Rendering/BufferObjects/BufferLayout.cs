@@ -1,11 +1,10 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects
 {
-    public struct BufferElement
+    public class BufferElement
     {
         public VertexAttribPointerType type;
         public int count;

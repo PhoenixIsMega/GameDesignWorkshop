@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
+﻿namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
 {
-    internal class BoxCollider : Component
+    internal class BoxCollider : ComponentBase
     {
         private float scaleX;
         private float scaleY;

@@ -1,8 +1,5 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine.Utility;
 using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects
 {

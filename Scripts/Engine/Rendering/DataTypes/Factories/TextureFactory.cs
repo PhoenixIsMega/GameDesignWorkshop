@@ -1,19 +1,19 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Text;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.DataTypes.Factories
 {
     public static class TextureFactory
     {
+        //OUTDATED
         private static int textureCursor = 0; // Cursor to keep track of the current texture slot
 
         public static Texture Load(string textureName)
         {
+            Console.WriteLine("Loading texture: " + textureName);
             int handle = GL.GenTexture(); // Generate a texture handle
             Enum.TryParse(typeof(TextureUnit), $"Texture{textureCursor}", out var result); // Try to parse the texture unit based on the cursor
 
@@ -41,14 +41,24 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.DataTypes.Fact
 
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D); // Generate mipmaps for the texture
 
-            textureCursor++; // Increment the texture cursor for the next texture
+            SetTextureCursor(GetTextureCursor() + 1); // Increment the texture cursor for the next texture
 
             return new Texture(handle, image.Width, image.Height, textureUnit); // Return the loaded texture as a Texture2D object
         }
 
+        private static void SetTextureCursor(int cursor)
+        {
+            textureCursor = cursor;
+        }
+
+        private static int GetTextureCursor()
+        {
+            return textureCursor;
+        }
+
         public static void UnloadTextures()
         {
-            textureCursor = 0;
+            SetTextureCursor(0);
         }
     }
 

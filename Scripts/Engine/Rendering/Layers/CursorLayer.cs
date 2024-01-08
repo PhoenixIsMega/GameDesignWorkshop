@@ -2,14 +2,14 @@
 using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using OpenTK.Graphics.OpenGL4;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
-    class CursorLayer : RenderLayer
+    class CursorLayer : RenderLayerBase
     {
-        public CursorLayer(string shaderPath) : base(shaderPath) { }
+        public CursorLayer(string shaderPath) : base(shaderPath) {
+            textureSlotsUsed = 2;
+        }
         protected override BufferLayout LoadBufferLayout()
         {
             BufferLayout bufferLayout = new BufferLayout();
@@ -25,10 +25,11 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
             int[] samplers = new int[2] { 0, 1 };
             GL.Uniform1(textureSampleUniformLocation, 2, samplers);
 
-            ResourceManager.Instance.LoadTexture("Assets/Textures/Menu/tilemap_packed.png");
+            ResourceManager.Instance.LoadTexture("Assets/Textures/Menu/tilemap_packed.png", TextureUnit.Texture0);
+            ResourceManager.Instance.LoadTexture("Assets/Textures/Platformer/tilemap_packed.png", TextureUnit.Texture1);
         }
 
-        protected override void UpdateArrayBuffer(float[] verticies)
+        protected override void UpdateArrayBuffer(float[] verticies, bool indexUpdate)
         {
             GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, verticies.Length * sizeof(float), verticies); // Update the vertex buffer data
         }

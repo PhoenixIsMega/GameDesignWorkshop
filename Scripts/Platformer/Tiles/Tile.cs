@@ -1,24 +1,41 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
 using GameDesignLearningAppPrototype.Scripts.Engine.Utility;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Components;
+using GameDesignLearningAppPrototype.Scripts.Platformer.GameObjects;
+using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
 using OpenTK.Windowing.Desktop;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
 {
-    class Tile : GameObject
+    public class Tile : GameObjectBase
     {
-        private Quad quad;
-        private Texture texture;
+        protected Quad quad;
+        public TextureComponent texture;
+        private readonly TileType tileType;
+        private readonly int x, y;
+        private readonly TileManager tileManager;
+        public int X
+        {
+            get { return x; }
+        }
+
+        public int Y
+        {
+            get { return y; }
+        }
+
+        public TileType TileType
+        {
+            get { return tileType; }
+        }
 
         //make it so width height are always 90 and scale is always 1
 
-        public Tile() : base()
+        protected Tile() : base()
         {
             quad = AddComponent<Quad>();
-            texture = AddComponent<Texture>();
+            texture = AddComponent<TextureComponent>();
 
             quad.Width = 90.0f;
             quad.Height = 90.0f;
@@ -26,61 +43,45 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
             texture.TextureID = 26 - 1;
         }
 
-        public Tile(int textureID) : this()
+        private Tile(TileManager tileManager, TileType tileType) : this() //remove need for texture id and just get from tiletype
         {
-            texture.TextureID = textureID - 1;
+            texture.TextureID = tileType.GetTileID() - 1;
+            this.tileManager = tileManager;
+            this.tileType = tileType;
+            //TileExtensions.GetTileID(tileType)
         }
 
-        public Tile(int textureID, float x, float y) : this(textureID)
+        public Tile(TileManager tileManager, int x, int y, TileType tileType) : this(tileManager, tileType)
         {
-            transform.X = x;
-            transform.Y = y;
+            transform.X = x * 90;
+            transform.Y = y * 90;
+            this.x = x;
+            this.y = y;
         }
 
-        private void Move(float x, float y)
-        {
-            //transform.X = x;
-            //transform.Y = y;
-            Console.WriteLine("implementDIFFERENTLY");
-        }
+        float[] verticies;
 
         public override float[] AssembleVertexData()
         {
-            //20 wide 9 high tile map
-            int tileX = texture.TextureID % 20 + 1;// move to calulate in texture??
-            int tileY = texture.TextureID / 20 + 1;
+            float x = transform.X;
+            float y = transform.Y;
+            float width = quad.Width * transform.ScaleX;
+            float height = quad.Height * transform.ScaleY;
+            float tileX = 0.05f * texture.TileX;
+            float tileY = 0.1111f * texture.TileY;
+            float tileYMinus = 0.111f;
 
-            float[] verticies = new float[] {
-            //Positions         //UV /Textureslot (should all be the same)
-             transform.X + (quad.Width*transform.ScaleX),  transform.Y + (quad.Height*transform.ScaleY), 0, 0.05f*tileX, 0.1112f*tileY, 0.0f, //top right
-             transform.X + (quad.Width*transform.ScaleX),  transform.Y, 0, 0.05f*tileX, 0.1112f*tileY-0.1112f, 0.0f,                          //bottom right
-             transform.X,  transform.Y, 0, 0.05f*tileX-0.05f, 0.1112f*tileY-0.1112f, 0.0f,                                                    //bottom left
-             transform.X,  transform.Y + (quad.Height*transform.ScaleY), 0, 0.05f*tileX-0.05f, 0.1112f*tileY, 0.0f                            //top left
-            }; ;
-
-            float[] rotatedVerticies = VertexUtilities.RotateQuad(quad.RotationAngle, quad.Width, quad.Height, transform.X, transform.Y, verticies, 6);
-
-            Array.Copy(rotatedVerticies, verticies, rotatedVerticies.Length);
-
-            //PrintArrayFormatted<float>(verticies, 6);
+            verticies = new float[] {
+                x + width, y + height, 0, tileX, tileY, 0.0f, //top right
+                x + width, y, 0, tileX, tileY - tileYMinus, 0.0f, //bottom right
+                x, y, 0, tileX - 0.049f, tileY - tileYMinus, 0.0f, //bottom left
+                x, y + height, 0, tileX - 0.049f, tileY, 0.0f //top left
+            };
 
             return verticies;
         }
 
-        /*
-        static void PrintArrayFormatted<T>(T[] array, int valuesPerRow)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                Console.Write(array[i] + " ");
-
-                if ((i + 1) % valuesPerRow == 0)
-                {
-                    Console.WriteLine();
-                }
-            }
-        }*/
-
+        public virtual void UpdateState(bool updateSurrounding) { }
 
         public override void Update(GameWindow gameWindow, GameTime gameTime)
         {

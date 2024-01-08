@@ -1,14 +1,10 @@
-﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects;
-using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers;
+﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers;
 using GameDesignLearningAppPrototype.Scripts.Menu.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
-using GameDesignLearningAppPrototype.Scripts.Platformer.Tiles;
 using OpenTK.Graphics.OpenGL;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
+namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers.RenderLayerManagers
 {
     class LayerManager
     {
@@ -29,11 +25,11 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
         public void LoadContent(PlayerManager playerManager, ParticleManager particleManager, TileManager tileManager, CursorManager cursorManager)
         {
             tileLayer.UpdateIndexBuffer(tileManager.CountTiles());
-            tileLayer.LoadContent(tileManager.AssembleVertexData());
+            tileLayer.LoadContent(tileManager.CombineVertexData());
             playerLayer.UpdateIndexBuffer(playerManager.CountTiles());
             playerLayer.LoadContent(playerManager.AssembleVertexData());
             particleLayer.UpdateIndexBuffer(particleManager.CountTiles());
-            particleLayer.LoadContent(particleManager.AssembleVertexData());
+            particleLayer.LoadContent(particleManager.CombineVertexData());
             gizmoLayer.LoadContent(null);
             cursorLayer.UpdateIndexBuffer(cursorManager.CountTiles());
             cursorLayer.LoadContent(cursorManager.AssembleVertexData());
@@ -41,17 +37,11 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
 
         public void Render(PlayerManager playerManager, ParticleManager particleManager, TileManager tileManager, CursorManager cursorManager)
         {
-            tileLayer.Render(tileManager.AssembleVertexData());
+            tileLayer.Render(tileManager.CombineVertexData());
+            tileLayer.UpdateIndexBuffer(tileManager.CountTiles());
             playerLayer.Render(playerManager.AssembleVertexData());
             particleLayer.UpdateIndexBuffer(particleManager.CountTiles());
-            particleLayer.Render(particleManager.AssembleVertexData());
-            // After an OpenGL function call, check for errors
-            ErrorCode errorCode = GL.GetError();
-            if (errorCode != ErrorCode.NoError)
-            {
-                Console.WriteLine($"OpenGL Error: {errorCode}");
-                // You can handle the error here, log it, or take other appropriate actions.
-            }
+            particleLayer.Render(particleManager.CombineVertexData());
             gizmoLayer.Render(null);
             cursorLayer.Render(cursorManager.AssembleVertexData());
         }

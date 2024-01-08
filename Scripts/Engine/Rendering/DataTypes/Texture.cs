@@ -1,7 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.DataTypes
 {
@@ -35,9 +33,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.DataTypes
             Dispose(false); // Destructor that calls Dispose method with disposing set to false
         }
 
-        public void Use()
+        public void Use(TextureUnit textureUnit)
         {
-            GL.ActiveTexture(TextureUnit.Texture0); // Activate the specified texture unit
+            GL.ActiveTexture(textureUnit); // Activate the specified texture unit
             GL.BindTexture(TextureTarget.Texture2D, Handle); // Bind the texture to the active texture unit
         }
 

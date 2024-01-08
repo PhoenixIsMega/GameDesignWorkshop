@@ -2,16 +2,15 @@
 using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
-    class TileLayer : RenderLayer
+    class TileLayer : RenderLayerBase
     {
-        public TileLayer(string shaderPath) : base(shaderPath) { }
+        public TileLayer(string shaderPath) : base(shaderPath) {
+            textureSlotsUsed = 1;
+        }
         protected override BufferLayout LoadBufferLayout()
         {
             BufferLayout bufferLayout = new BufferLayout();
@@ -23,22 +22,22 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 
         protected override void LoadUniforms()
         {
-            CameraManager.Instance.setCameraUniform(shader.ProgramId);
-            CameraManager.Instance.setCameraScaleUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId);
         }
 
         protected override void LoadTextures()
         {
             var textureSampleUniformLocation = shader.GetUniformLocation("u_Texture[0]");
-            int[] samplers = new int[2] { 0, 1 };
-            GL.Uniform1(textureSampleUniformLocation, 2, samplers);
+            int[] samplers = new int[1] { 0};
+            GL.Uniform1(textureSampleUniformLocation, 1, samplers);
 
-            ResourceManager.Instance.LoadTexture("Assets/Textures/Platformer/tiles_packed.png");
+            ResourceManager.Instance.LoadTexture("Assets/Textures/Platformer/tilemap_packed.png", TextureUnit.Texture0);
         }
 
-        protected override void UpdateArrayBuffer(float[] verticies)
+        protected override void UpdateArrayBuffer(float[] verticies, bool indexUpdate)
         {
-            GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, verticies.Length * sizeof(float), verticies); // Update the vertex buffer data
+            GL.BufferData(BufferTarget.ArrayBuffer, verticies.Length * sizeof(float), verticies, BufferUsageHint.DynamicDraw);
         }
     }
 }

@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -33,6 +34,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Textures\Menu\tilemap_packed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Textures\NEW %28not implemented%29\tilemap-backgrounds_packed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Textures\NEW %28not implemented%29\tilemap-characters_packed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Textures\Platformer\tilemap_packed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Textures\NEW (not implemented)\UIpackSheet_transparent.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Textures\Platformer\OLD\alienBeige.png">
@@ -107,7 +120,7 @@
     <None Update="Assets\Textures\Platformer\OLD\spritesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\Textures\Platformer\tiles_packed.png">
+    <None Update="Assets\Textures\Platformer\OLD\tiles_packed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Textures\Platformer\OLD\tiles_spritesheet.png">
@@ -116,6 +129,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Scripts\Engine\Managers\" />
+    <Folder Include="Scripts\Engine\Rendering\PostProcessing\" />
     <Folder Include="Scripts\User\" />
     <Folder Include="Scripts\Scenes\" />
     <Folder Include="Scripts\Platformer\Enemies\" />

@@ -2,18 +2,17 @@
 using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using OpenTK.Graphics.OpenGL4;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
-    public abstract class RenderLayer
+    public abstract class RenderLayerBase
     {
         protected string shaderPath;
         protected ShaderProgramManager shader;
         protected VertexArray vertexArray;
         protected VertexBuffer vertexBuffer;
         protected IndexBuffer indexBuffer;
+        protected int textureSlotsUsed = 1;
         protected bool isLoaded = false;
         protected uint[] _indices =
         {
@@ -24,13 +23,12 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         protected bool indexUpdate = false;
         protected bool vertexUpdate = false;
 
-        public RenderLayer(string shaderPath)
+        public RenderLayerBase(string shaderPath)
         {
             this.shaderPath = shaderPath;
         }
 
         protected abstract BufferLayout LoadBufferLayout();
-        //protected abstract void LoadContent();
         public virtual void LoadContent(float[] verticies)
         {
             shader = new ShaderProgramManager(ShaderProgramManager.ParseShader(shaderPath));
@@ -52,7 +50,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 
         protected virtual void LoadUniforms() { }
         protected virtual void LoadTextures() { }
-        protected virtual void UpdateArrayBuffer(float[] verticies) { }
+        protected virtual void UpdateArrayBuffer(float[] verticies, bool indexupdated) { }
 
         public virtual void UpdateIndexBuffer(int numQuads)
         {
@@ -75,8 +73,15 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 
             _indices = indices;
             indexUpdate = true;
+        }
 
-            //Console.WriteLine("indecies after: " + _indices.Length);
+        public virtual void UnloadTextures() //this function is not working as intended, should unbind textures so other layers cant use them/ have a blank slate
+        {
+            for (int i = 0; i < textureSlotsUsed; i++)
+            {
+                GL.ActiveTexture(TextureUnit.Texture0 + i);
+                GL.BindTexture(TextureTarget.Texture2D, 0); // Unbind the texture from OpenGL
+            }
         }
 
         public virtual void Render(float[] verticies)
@@ -92,33 +97,37 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 
             vertexArray.Bind(); // Bind the vertex array
             vertexBuffer.Bind();
+            //if (vertexUpdate)
+            //{
+                UpdateArrayBuffer(verticies, indexUpdate);
+            //}
 
-            UpdateArrayBuffer(verticies);
             indexBuffer.Bind(); // Bind the index buffer
 
             if (indexUpdate)
             {
-                GL.Flush();
                 GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(int), _indices, BufferUsageHint.DynamicDraw);
+                indexUpdate = false;
             }
 
             int[] viewport = new int[4];
             GL.GetInteger(GetPName.Viewport, viewport); // Get the viewport dimensions
             GL.Uniform2(GL.GetUniformLocation(shader.ProgramId, "ViewportSize"), (float)viewport[2], (float)viewport[3]); // Set the "ViewportSize" uniform in the shader
             LoadUniforms();
-            //Console.WriteLine("indecies after2: " + shaderPath + " " + _indices.Length);
+
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0); // Draw the elements using triangles
 
-            
+
 
             ErrorCode errorCode = GL.GetError();
             if (errorCode != ErrorCode.NoError)
             {
-                Console.WriteLine($"OpenGL Error DE: {errorCode}");
-                // You can handle the error here, log it, or take other appropriate actions.
+                Console.WriteLine($"OpenGL Error Drawing Elements: {errorCode}");
             }
 
-            ResourceManager.Instance.UnloadTextures();
+            //ResourceManager.Instance.DisposeTextures();
+            //GL.Finish();
+            UnloadTextures();
         }
     }
 }

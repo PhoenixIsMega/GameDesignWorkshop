@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
 {
-    public struct SpritesheetProperties
+    public class SpritesheetProperties //this class isnt really used
     {
         public int leftMargin;           // The left margin in pixels
         public int bottomMargin;         // The bottom margin in pixels

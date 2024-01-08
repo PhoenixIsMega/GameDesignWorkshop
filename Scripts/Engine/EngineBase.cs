@@ -1,13 +1,14 @@
-﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
+﻿using GameDesignLearningAppPrototype.Scripts.Engine;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using System;
 
-namespace GameDesignLearningAppPrototype.Scripts.Engine
+namespace GameDesignLearningAppPrototype.Scripts
 {
-    public abstract class Engine
+    public abstract class EngineBase
     {
         protected string WindowTitle { get; set; } // The title of the game window.
         protected int InitialWindowWidth { get; set; } // The initial width of the game window.
@@ -18,7 +19,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine
 
         protected GameWindow gameWindow; // The game window instance.
 
-        public Engine(string windowTitle, int initialWindowWidth, int initialWindowHeight)
+        public EngineBase(string windowTitle, int initialWindowWidth, int initialWindowHeight)
         {
             WindowTitle = windowTitle;
             InitialWindowWidth = initialWindowWidth;
@@ -46,6 +47,8 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine
 
             gameWindow = DisplayManager.Instance.CreateWindow(_gameWindowSettings, _nativeWindowSettings); // Create the game window using the specified settings.
 
+            GL.ClearColor(new Color4(0.35f, 0.75f, 0.45f, 1f)); // Set the clear color, only needs to be set once as its constant, will be replaced by background at some point anyway
+
             GameTime gameTime = new GameTime(); // Create a new GameTime instance.
 
             gameWindow.Load += LoadContent; // Subscribe to the Load event.
@@ -65,15 +68,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine
             gameWindow.RenderFrame += (FrameEventArgs eventArgs) =>
             {
                 Render(gameTime); // Call the Render method of the game
-                //GL.Finish();
-                ErrorCode errorCode = GL.GetError();
-                if (errorCode != ErrorCode.NoError)
-                {
-                    Console.WriteLine($"OpenGL Error DE: {errorCode}");
-                    // You can handle the error here, log it, or take other appropriate actions.
-                }
-
+                
                 gameWindow.SwapBuffers(); // Swap the front and back buffers to display the rendered frame.
+               
             };
 
             gameWindow.Resize += (ResizeEventArgs) =>
@@ -90,6 +87,10 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine
 
             gameWindow.IsVisible = true; // Set the game window to be visible.
 
+            //gameWindow.VSync = VSyncMode.Off;
+
+
+            
             gameWindow.Run(); // Start the game loop.
         }
 

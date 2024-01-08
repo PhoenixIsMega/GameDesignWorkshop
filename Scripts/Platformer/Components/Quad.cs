@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
+﻿namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
 {
-    class Quad : Component
+    public class Quad : ComponentBase
     {
         private float width = 0.0f;
         private float height = 0.0f;
 
         private float rotationAngle = 0.0f;
 
-        public float Width {
+        public float Width
+        {
             get { return width; }
             set { width = value; }
         }

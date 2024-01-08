@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
+﻿namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
 {
-    public class Transform : Component
+    public class Transform : ComponentBase
     {
         private float x = 0.0f;
         private float y = 0.0f;
@@ -17,12 +13,12 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
             get { return x; }
             set { x = value; }
         }
-        
+
         public float Y
         {
             get { return y; }
             set { y = value; }
-        } 
+        }
 
         public float ScaleX
         {

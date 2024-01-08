@@ -1,83 +1,81 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects;
+using GameDesignLearningAppPrototype.Scripts.Engine.Versions;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Particles;
 using OpenTK.Windowing.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 {
     class ParticleManager
     {
         public List<Particle> particles = new List<Particle>();
-        Random random = new Random();
-        public ParticleManager()
+        private Random random = new Random();
+        private PrototypeVersion1 game;
+        public ParticleManager(PrototypeVersion1 game)
         {
             particles.Add(new Particle());
             particles[0].Move(300, 300);
+            this.game = game;
         }
 
         public void Update(GameWindow gameWindow, GameTime gameTime)
         {
-            //Particle newparticle = new Particle();
-            //newparticle.Move(400, 500);
-            //particles.Add(newparticle);
+
             foreach (Particle particle in particles.ToList())
             {
                 particle.Update(gameWindow, gameTime);
+                particle.Move(particle.GetCoords().Item1, particle.GetCoords().Item2-15);
                 particle.lifetime++;
-            }/*
-                //particle.Move(particle.getCoords().Item1, particle.getCoords().Item2 - 10);
-                particle.lifetime++;
-                if (particle.lifetime == 20)
+                if (particle.lifetime > 50)
                 {
-                    //particle.Move(0, -1000);
-                    //particles.Add(new Particle());
-                    //particles[particles.Count - 1].Move(300, 300);
-                    Particle newparticle = new Particle();
-                    //newparticle.Move(particle.getCoords().Item1 + 10, 300);
-                    particles.Add(newparticle);
+                    particles.Remove(particle);
+                    particle.Dispose();
                 }
-                //Console.WriteLine(particle.ToString() + " :" + particle.getCoords().ToString());
-            }*/
+            }
 
-            if (particles[particles.Count-1].lifetime == 3 && particles.Count < 200)
-            {
+            //if (particles[particles.Count - 1].lifetime == 1 && particles.Count < 200)
+            if (particles.Count < 2)
+            { //I KNOW THIS IS BAD BUT ILL OPTIMISE LATER
                 Particle newparticle = new Particle();
-                newparticle.Move(particles[particles.Count-1].getCoords().Item1 + 10, 300);
+                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
+                particles.Add(newparticle);
+                newparticle = new Particle();
+                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
+                particles.Add(newparticle);
+                newparticle = new Particle();
+                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
+                particles.Add(newparticle);
+                newparticle = new Particle();
+                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
                 particles.Add(newparticle);
             }
-            //Console.WriteLine("Particles: " + particles.Count);
         }
 
-        public float[] AssembleVertexData()
+        public float[] CombineVertexData()
         {
             List<float> listVerticies = new List<float>();
-            foreach (Particle tile in particles)
+
+            float[] vertexData;
+
+            foreach (Particle particle in particles)
             {
-                if (tile == null) continue;
-                float[] vertexData = tile.AssembleVertexData();
-                foreach (float value in vertexData)
+                if (particle == null) continue;
+                vertexData = particle.AssembleVertexData();
+                if(vertexData == null) { continue; }
+                foreach (float vertex in vertexData)
                 {
-                    listVerticies.Add(value);
+                    listVerticies.Add(vertex);
                 }
             }
             float[] verticies = listVerticies.ToArray();
-            //Console.WriteLine(string.Join(" ", verticies));
-            //Console.WriteLine("V count" + verticies.Length);
             return verticies;
         }
 
         public int CountTiles()
         {
-            /*int count = 0;
-            foreach (Particle tile in particles)
-            {
-                if (tile == null) continue;
-                count++;
-            }
-            return count;*/
             return particles.Count;
         }
     }

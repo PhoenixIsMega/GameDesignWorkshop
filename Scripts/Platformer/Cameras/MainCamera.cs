@@ -1,13 +1,10 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
+using GameDesignLearningAppPrototype.Scripts.Platformer.GameObjects;
 using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Cameras
 {
-    public class MainCamera : GameObject
+    public class MainCamera : GameObjectBase
     {
         float velocityX = 0;
         float velocityY = 0;
@@ -29,44 +26,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Cameras
 
         public override void Update(GameWindow gameWindow, GameTime gameTime)
         {
-            // Player movement based on keyboard input
-            /*KeyboardState input = gameWindow.KeyboardState;
-            if (input.IsKeyDown(Keys.Right)) velocityX = Math.Min(velocityX + speed, maxVelocity);
-            if (input.IsKeyDown(Keys.Left)) velocityX = Math.Max(velocityX - speed, -maxVelocity);
-            if (input.IsKeyDown(Keys.Up)) velocityY = Math.Min(velocityY + speed, maxVelocity);
-            if (input.IsKeyDown(Keys.Down)) velocityY = Math.Max(velocityY - speed, -maxVelocity);
-            transform.X += velocityX;
-            transform.Y += velocityY;
-
-            // Apply air resistance to velocity
-            if (Math.Abs(velocityX) < threshold)
-            {
-                velocityX = 0.0f;
-            }
-            else if (velocityX > 0.0f)
-            {
-                velocityX -= airResistance;
-            }
-            else if (velocityX < 0.0f)
-            {
-                velocityX += airResistance;
-            }
-
-            if (Math.Abs(velocityY) < threshold)
-            {
-                velocityY = 0.0f;
-            }
-            else if (velocityY > 0.0f)
-            {
-                velocityY -= airResistance;
-            }
-            else if (velocityY < 0.0f)
-            {
-                velocityY += airResistance;
-            }*/
         }
 
-        public void setPosition (float x , float y)
+        public void SetPosition(float x, float y)
         {
             transform.X = x;
             transform.Y = y;

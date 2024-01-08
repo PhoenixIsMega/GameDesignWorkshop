@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Utility
 {
     public static class VertexUtilities
     {
-        public static float[] RotateQuad(float rotationAngle, float quadWidth, float quadHeight, float x, float y, float[] _verticies, int stride) //stride should be temp
+        public static void RotateQuad(float rotationAngle, float quadWidth, float quadHeight, float x, float y, ref float[] _verticies, int stride) //stride should be temp
         {
             // Update the vertex positions, UVs, colors, and textureslot
-            //float[] translatedVertices = new float[_verticies.Length];
-            //Array.Copy(_verticies, translatedVertices, translatedVertices.Length);
-
+            
             // Calculate the center point of the quad
             float centerX = x + quadWidth / 2;
             float centerY = y + quadHeight / 2;
@@ -33,7 +29,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Utility
             // Update the _verticies array with the translated vertices
             //Array.Copy(translatedVertices, _verticies, translatedVertices.Length);
 
-            return _verticies;
+            //return _verticies;
         }
 
         public static float[] ScaleQuad(float scaleX, float scaleY, float quadWidth, float quadHeight, float x, float y, float[] _vertices, int stride)

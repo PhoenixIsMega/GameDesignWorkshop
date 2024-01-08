@@ -3,9 +3,6 @@ using GameDesignLearningAppPrototype.Scripts.Platformer.Cameras;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Desktop;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 {
@@ -13,7 +10,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
     {
         private static CameraManager instance = null; // Singleton instance
         private static readonly object loc = new object(); // Lock object for thread safety
-        
+
         public static CameraManager Instance
         {
             get
@@ -36,30 +33,30 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             mainCamera = new MainCamera();
         }
 
-        public Vector2 getCameraLocation()
+        public Vector2 GetCameraLocation()
         {
             return new Vector2(mainCamera.transform.X, mainCamera.transform.Y);
         }
 
-        public Vector2 getCameraScale()
+        public Vector2 GetCameraScale()
         {
             return new Vector2(mainCamera.transform.ScaleX, mainCamera.transform.ScaleY);
         }
 
-        public void setCameraScale(float scale)
+        public void SetCameraScale(float scale)
         {
             mainCamera.transform.ScaleX = scale;
             mainCamera.transform.ScaleY = scale;
         }
 
-        public void setCameraUniform(int programId)
+        public void SetCameraUniform(int programId)
         {
-            GL.Uniform2(GL.GetUniformLocation(programId, "CameraLocation"), getCameraLocation().X, getCameraLocation().Y); // Set the "ViewportSize" uniform in the shader
+            GL.Uniform2(GL.GetUniformLocation(programId, "CameraLocation"), GetCameraLocation().X, GetCameraLocation().Y); // Set the "ViewportSize" uniform in the shader
         }
 
-        public void setCameraScaleUniform(int programId)
+        public void SetCameraScaleUniform(int programId)
         {
-            GL.Uniform2(GL.GetUniformLocation(programId, "Scale"), getCameraScale().X, getCameraScale().Y); // Set the "ViewportSize" uniform in the shader
+            GL.Uniform2(GL.GetUniformLocation(programId, "Scale"), GetCameraScale().X, GetCameraScale().Y); // Set the "ViewportSize" uniform in the shader
         }
 
         public void Update(GameWindow gameWindow, GameTime gameTime)
@@ -67,9 +64,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             mainCamera.Update(gameWindow, gameTime);
         }
 
-        public void setCameraPosition(float x, float y)
+        public void SetCameraPosition(float x, float y)
         {
-            mainCamera.setPosition(x, y);
+            mainCamera.SetPosition(x, y);
         }
     }
 }
