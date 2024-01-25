@@ -13,6 +13,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Players
     {
         private Quad quad;
         private TextureComponent texture;
+        private BoxCollider collider;
 
         float velocityX = 0;
         float velocityY = 0;
@@ -20,7 +21,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Players
         float airResistance = 1.0f;
         float maxVelocity = 15.0f;
         float threshold = 1.0f;
-        Color colorMultiplier = new Color(255, 100, 100, 255);
+        Color colorMultiplier = new Color(255, 255, 255, 255);
 
         //make it so width height are always 90 and scale is always 1
 
@@ -28,9 +29,12 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Players
         {
             quad = AddComponent<Quad>();
             texture = AddComponent<TextureComponent>();
+            collider = AddComponent<BoxCollider>();
 
             quad.Width = 120.0f;
             quad.Height = 120.0f;
+
+            collider.AssignVariables(transform, quad);
         }
 
         public void Move(float x, float y)
@@ -53,7 +57,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Players
         {
             //20 wide 9 high tile map
             int tileX = Math.Abs(velocityX) < (threshold + 0.00f) ? 1 : (int)(Math.Abs(transform.X) / 42.857) % 2 + 1; //50 / 140 * 120
-            float tileY = 1.0f;
+            float tileY = 3.0f;
 
             float[] verticies = new float[] {
             //Positions         //UV /Textureslot (should all be the same)

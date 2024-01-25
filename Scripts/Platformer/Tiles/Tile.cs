@@ -12,6 +12,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
     {
         protected Quad quad;
         public TextureComponent texture;
+        public BoxCollider boxCollider;
         private readonly TileType tileType;
         private readonly int x, y;
         private readonly TileManager tileManager;
@@ -36,11 +37,14 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
         {
             quad = AddComponent<Quad>();
             texture = AddComponent<TextureComponent>();
+            boxCollider = AddComponent<BoxCollider>();
 
             quad.Width = 90.0f;
             quad.Height = 90.0f;
 
             texture.TextureID = 26 - 1;
+
+            boxCollider.AssignVariables(transform, quad);
         }
 
         private Tile(TileManager tileManager, TileType tileType) : this() //remove need for texture id and just get from tiletype

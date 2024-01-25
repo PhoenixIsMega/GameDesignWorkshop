@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -16,15 +16,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="OpenTK" Version="4.7.7" />
+    <PackageReference Include="SharpFont" Version="4.0.1" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\Fonts\charmap-cellphone_white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Fonts\charmap-oldschool_white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Shaders\ScreenText.shader">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Shaders\FrameBufferBase.shader">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Shaders\SingleColor.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Shaders\Cursor.shader">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Shaders\Background.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Shaders\Tile.shader">
@@ -36,7 +53,7 @@
     <None Update="Assets\Textures\Menu\tilemap_packed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\Textures\NEW %28not implemented%29\tilemap-backgrounds_packed.png">
+    <None Update="Assets\Textures\Platformer\tilemap-backgrounds_packed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Textures\NEW %28not implemented%29\tilemap-characters_packed.png">
@@ -129,7 +146,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Scripts\Engine\Managers\" />
     <Folder Include="Scripts\Engine\Rendering\PostProcessing\" />
     <Folder Include="Scripts\User\" />
     <Folder Include="Scripts\Scenes\" />

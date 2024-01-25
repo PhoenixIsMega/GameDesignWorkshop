@@ -6,7 +6,7 @@ using System;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
-    class PlayerLayer : RenderLayerBase
+    public class PlayerLayer : RenderLayerBase
     {
         public PlayerLayer(string shaderPath) : base(shaderPath) {
             textureSlotsUsed = 1;
@@ -25,7 +25,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         {
             GL.Uniform1(GL.GetUniformLocation(shader.ProgramId, "blackness"), 1.0f); // Set the "blackness" uniform value in the shader
             CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 1.0f);
         }
 
         protected override void LoadTextures()

@@ -9,17 +9,6 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
     class GizmoLayer : RenderLayerBase
     {
-        float[] vertices =//tempoarary, will make dynamic at some point
-            {
-                100f, 100f, 0f, // Starting point of the line
-                200f, 200f, 0f, // Ending point of the line
-                250f, 250f, 0f, // Starting point of the line
-                350f, 350f, 0f, // Ending point of the line
-                350f, 250f, 0f, // Starting point of the line
-                450f, 350f, 0f, // Ending point of the line
-                500f, 500f, 0f, // Starting point of the line
-                500f, 501f, 0f, // Ending point of the line
-            };
 
         public GizmoLayer(string shaderPath) : base(shaderPath) {
             textureSlotsUsed = 0;
@@ -34,7 +23,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
                 return;
             }
             vertexArray = new VertexArray();
-            vertexBuffer = new VertexBuffer(vertices, BufferUsageHint.DynamicDraw);
+            vertexBuffer = new VertexBuffer(verticies, BufferUsageHint.DynamicDraw);
 
             BufferLayout bufferLayout = LoadBufferLayout();
 
@@ -57,11 +46,11 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         {
             GL.Uniform4(GL.GetUniformLocation(shader.ProgramId, "color"), new Vector4(1f, 0.2f, 0.5f, 1));
             CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 1.0f);
         }
         protected override void UpdateArrayBuffer(float[] verticies, bool indexUpdate)
         {
-            GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, verticies.Length * sizeof(float), verticies); // Update the vertex buffer data
+            GL.BufferData(BufferTarget.ArrayBuffer, verticies.Length * sizeof(float), verticies, BufferUsageHint.DynamicDraw);
         }
 
         public override void Render(float[] verticies)
@@ -75,14 +64,14 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 
             vertexArray.Bind(); // Bind the vertex array
             vertexBuffer.Bind();
-            UpdateArrayBuffer(vertices, true);
+            UpdateArrayBuffer(verticies, true);
 
             int[] viewport = new int[4];
             GL.GetInteger(GetPName.Viewport, viewport); // Get the viewport dimensions
             GL.Uniform2(GL.GetUniformLocation(shader.ProgramId, "ViewportSize"), (float)viewport[2], (float)viewport[3]); // Set the "ViewportSize" uniform in the shader
             LoadUniforms();
 
-            GL.DrawArrays(PrimitiveType.Lines, 0, vertices.Length / 3); // Draw the elements using triangles
+            GL.DrawArrays(PrimitiveType.Lines, 0, verticies.Length / 3); // Draw the elements using triangles
         }
     }
 }

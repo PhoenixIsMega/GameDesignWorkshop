@@ -37,7 +37,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             }
 
             //if (particles[particles.Count - 1].lifetime == 1 && particles.Count < 200)
-            if (particles.Count < 2)
+            if (particles.Count < 200)
             { //I KNOW THIS IS BAD BUT ILL OPTIMISE LATER
                 Particle newparticle = new Particle();
                 newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);

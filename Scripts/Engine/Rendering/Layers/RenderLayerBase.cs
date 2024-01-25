@@ -38,7 +38,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
                 return;
             }
             vertexArray = new VertexArray();
-            vertexBuffer = new VertexBuffer(verticies, BufferUsageHint.DynamicDraw);
+            vertexBuffer = new VertexBuffer(verticies, BufferUsageHint.DynamicDraw); //ake modifieable for framebuffer
             indexBuffer = new IndexBuffer(_indices);
 
             BufferLayout bufferLayout = LoadBufferLayout();

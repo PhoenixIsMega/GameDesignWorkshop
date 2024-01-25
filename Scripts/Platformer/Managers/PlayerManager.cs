@@ -1,10 +1,13 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
+using GameDesignLearningAppPrototype.Scripts.Platformer.Components;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Players;
+using GameDesignLearningAppPrototype.Scripts.Platformer.Tiles;
 using OpenTK.Windowing.Desktop;
+using System.Collections.Generic;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 {
-    class PlayerManager
+    public class PlayerManager
     {
         private Player player = new Player();
         public PlayerManager()
@@ -35,6 +38,21 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
         public (float, float) GetPlayerSize()
         {
             return player.GetSize();
+        }
+
+        public float[] getColliderLines()
+        {
+            List<float> listVerticies = new List<float>();
+            listVerticies.Clear();
+            if (player == null) return null;
+            if (player.GetComponent<BoxCollider>() is null) return null;
+            float[] vertexData = player.GetComponent<BoxCollider>().getLines();
+            foreach (float vertex in vertexData)
+            {
+                listVerticies.Add(vertex);
+            }
+            float[] verticies = listVerticies.ToArray();
+            return verticies;
         }
     }
 }

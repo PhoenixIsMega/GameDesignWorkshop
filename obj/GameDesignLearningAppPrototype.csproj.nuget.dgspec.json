@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phoen\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj": {}
+    "C:\\Users\\pt01579\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phoen\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj": {
+    "C:\\Users\\pt01579\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phoen\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj",
+        "projectUniqueName": "C:\\Users\\pt01579\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj",
         "projectName": "GameDesignLearningAppPrototype",
-        "projectPath": "C:\\Users\\phoen\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj",
-        "packagesPath": "C:\\Users\\phoen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phoen\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\obj\\",
+        "projectPath": "C:\\Users\\pt01579\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\GameDesignLearningAppPrototype.csproj",
+        "packagesPath": "C:\\Users\\pt01579\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pt01579\\OneDrive - Woking College\\vsNEA\\GameDesignLearningAppPrototypeVer1\\GameDesignLearningAppPrototype\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\phoen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pt01579\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,9 +44,17 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "NAudio": {
+              "target": "Package",
+              "version": "[2.2.1, )"
+            },
             "OpenTK": {
               "target": "Package",
               "version": "[4.7.7, )"
+            },
+            "SharpFont": {
+              "target": "Package",
+              "version": "[4.0.1, )"
             },
             "System.Drawing.Common": {
               "target": "Package",
@@ -65,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

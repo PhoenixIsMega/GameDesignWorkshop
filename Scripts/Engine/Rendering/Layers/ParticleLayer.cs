@@ -23,7 +23,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         {
             GL.Uniform4(GL.GetUniformLocation(shader.ProgramId, "color"), new Vector4(1, 1, 1.0f, 1));
             CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 1.0f);
         }
         protected override void UpdateArrayBuffer(float[] verticies, bool indexUpdate)
         {

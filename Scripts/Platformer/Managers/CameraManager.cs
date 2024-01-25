@@ -54,9 +54,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             GL.Uniform2(GL.GetUniformLocation(programId, "CameraLocation"), GetCameraLocation().X, GetCameraLocation().Y); // Set the "ViewportSize" uniform in the shader
         }
 
-        public void SetCameraScaleUniform(int programId)
+        public void SetCameraScaleUniform(int programId, float multiplier)
         {
-            GL.Uniform2(GL.GetUniformLocation(programId, "Scale"), GetCameraScale().X, GetCameraScale().Y); // Set the "ViewportSize" uniform in the shader
+            GL.Uniform2(GL.GetUniformLocation(programId, "Scale"), GetCameraScale().X*multiplier, GetCameraScale().Y*multiplier); // Set the "ViewportSize" uniform in the shader
         }
 
         public void Update(GameWindow gameWindow, GameTime gameTime)

@@ -46,7 +46,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
             switch (state)
             {
                 case FlagState.POLE:
-                    animator.SetFrameIDs(new int[1] {52});
+                    animator.SetFrameIDs(new int[1] { 52 });
                     animator.Pause();
                     break;
                 case FlagState.FLAG:
@@ -58,16 +58,17 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
 
         public override void UpdateState(bool updateSurrounding)
         {
-            if(tileManager.GetTile(X, Y+1) is Flag)
+            if (tileManager.GetTile(X, Y + 1) is Flag)
             {
                 SetState(FlagState.POLE);
-            } else
+            }
+            else
             {
                 SetState(FlagState.FLAG);
             }
             if (updateSurrounding)
             {
-                
+
                 /*if (tileManager.GetTile(X, Y - 1) == null)
                 {
                     return;

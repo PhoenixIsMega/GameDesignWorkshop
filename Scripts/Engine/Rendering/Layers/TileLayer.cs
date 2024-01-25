@@ -23,7 +23,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         protected override void LoadUniforms()
         {
             CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId);
+            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 1.0f);
         }
 
         protected override void LoadTextures()

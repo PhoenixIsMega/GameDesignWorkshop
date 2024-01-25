@@ -169,7 +169,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
                 case TileType.CACTUS_PLANT:
                 case TileType.FLAG:
                 case TileType.WATER:
-                //case TileType.WATERFALL:
+                case TileType.WATERFALL:
                     return true;
                 default:
                     return false;

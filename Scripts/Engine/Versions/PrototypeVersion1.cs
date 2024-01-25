@@ -1,4 +1,5 @@
-﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers.RenderLayerManagers;
+﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers.RenderLayerManagers;
 using GameDesignLearningAppPrototype.Scripts.Menu.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Tiles;
@@ -20,6 +21,8 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
         private ParticleManager particleManager;
         private PlayerManager playerManager;
         private CursorManager cursorManager;
+        private BackgroundManager backgroundManager;
+        private GizmoManager gizmoManager;
 
         private LayerManager layerManager;
 
@@ -32,12 +35,14 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
             particleManager = new ParticleManager(this);
             tileManager = new TileManager();
             cursorManager = new CursorManager(tileManager);
+            backgroundManager = new BackgroundManager();
+            gizmoManager = new GizmoManager(tileManager , playerManager);
         }
 
         protected override void LoadContent()
         {
             Console.WriteLine("Load");
-            layerManager.LoadContent(playerManager, particleManager, tileManager, cursorManager);
+            layerManager.LoadContent(playerManager, particleManager, tileManager, cursorManager, backgroundManager, gizmoManager);
             gameWindow.CursorState = OpenTK.Windowing.Common.CursorState.Hidden;
         }
 
@@ -57,7 +62,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
             CameraManager.Instance.Update(gameWindow, gameTime);
 
             //please update this later
-            CameraManager.Instance.SetCameraPosition(getPlayerLocation().Item1 - gameWindow.Size.X / 2 + playerManager.GetPlayerSize().Item1 / 2, getPlayerLocation().Item2 - gameWindow.Size.Y / 2 + playerManager.GetPlayerSize().Item2 / 2);
+            CameraManager.Instance.SetCameraPosition(getPlayerLocation().Item1 - gameWindow.Size.X / 2 + playerManager.GetPlayerSize().Item1 / 2, getPlayerLocation().Item2 - gameWindow.Size.Y / 4 + playerManager.GetPlayerSize().Item2 / 2);
         }
 
         float scale = 1;
@@ -88,7 +93,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
         {
             GL.Clear(ClearBufferMask.ColorBufferBit); // Clear the color 
 
-            layerManager.Render(playerManager, particleManager, tileManager, cursorManager);
+            layerManager.Render(playerManager, particleManager, tileManager, cursorManager, backgroundManager, gizmoManager);
 
 
         }

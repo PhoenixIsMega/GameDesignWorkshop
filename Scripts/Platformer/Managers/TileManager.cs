@@ -149,6 +149,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
                     case TileType.TREE_PLANT:
                         tiles[x, y] = new TreePlant(this, x, y);
                         break;
+                    case TileType.WATERFALL:
+                        tiles[x, y] = new Waterfall(this, x, y);
+                        break;
                     default:
                         //error tile maybe?
                         break;
@@ -191,6 +194,24 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             }
             if (GetTile(x, y) == null) return TileType.AIR;
             return GetTile(x, y).TileType;
+        }
+
+        public float[] getColliderLines()
+        {
+            List<float> listVerticies = new List<float>();
+            listVerticies.Clear();
+            foreach (Tile tile in tiles)
+            {
+                if (tile == null) continue;
+                if (tile.GetComponent<BoxCollider>() is null) continue;
+                float[] vertexData = tile.GetComponent<BoxCollider>().getLines();
+                foreach (float vertex in vertexData)
+                {
+                    listVerticies.Add(vertex);
+                }
+            }
+            verticies = listVerticies.ToArray();
+            return verticies;
         }
     }
 }
