@@ -35,6 +35,9 @@
     <None Update="Assets\Shaders\FrameBufferBase.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Shaders\MultiColor.shader">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Shaders\SingleColor.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

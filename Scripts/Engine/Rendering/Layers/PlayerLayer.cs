@@ -8,7 +8,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
     public class PlayerLayer : RenderLayerBase
     {
-        public PlayerLayer(string shaderPath) : base(shaderPath) {
+        private readonly ClassManager classManager;
+        public PlayerLayer(ClassManager classManager, string shaderPath) : base(shaderPath) {
+            this.classManager = classManager;
             textureSlotsUsed = 1;
         }
         protected override BufferLayout LoadBufferLayout()
@@ -24,8 +26,8 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         protected override void LoadUniforms()
         {
             GL.Uniform1(GL.GetUniformLocation(shader.ProgramId, "blackness"), 1.0f); // Set the "blackness" uniform value in the shader
-            CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 1.0f);
+            classManager.CameraManager.SetCameraUniform(shader.ProgramId);
+            classManager.CameraManager.SetCameraScaleUniform(shader.ProgramId, 1.0f);
         }
 
         protected override void LoadTextures()

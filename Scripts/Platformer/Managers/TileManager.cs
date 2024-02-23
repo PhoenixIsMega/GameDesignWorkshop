@@ -1,4 +1,5 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Components;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Particles;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Tiles;
@@ -11,38 +12,23 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 {
     public class TileManager
     {
+        private readonly ClassManager classManager;
         public bool tilesModified = false;
-        private Tile[,] tiles = new Tile[100, 10];
-        public TileManager()
+        private readonly int chunkSize;
+        private static readonly int chunksX = 10;
+        private static readonly int chunksY = 10;
+        private Chunk[,] chunks = new Chunk[chunksX, chunksY];
+        public TileManager(ClassManager classManager)
         {
-            for (int i = 0; i < TileType.GetValues(typeof(TileType)).Length; i++) //basic test scene
+            this.classManager = classManager;
+            this.chunkSize = Chunk.ChunkSize;
+            for (int i= 0; i < 10; i++)
             {
-                TrySetTile(i, 3, (TileType)i);
-                if (tiles[i, 3] is Flag)
-                {
-                    Flag flag = (Flag)tiles[i, 3];
-                    //flag.SetState(Flag.FlagState.POLE);
-                    TrySetTile(i, 4, (TileType)i);
-                    TrySetTile(i, 6, (TileType)i);
-                    TrySetTile(i, 2, (TileType)i);
-                    TrySetTile(i, 5, (TileType)i);
-                    TrySetTile(i, 7, (TileType)i);
-                }
-
-                if (tiles[i, 3] is Water)
-                {
-                    Water water = (Water)tiles[i, 3];
-                    //flag.SetState(Flag.FlagState.POLE);
-                    TrySetTile(i, 4, (TileType)i);
-                    TrySetTile(i, 6, (TileType)i);
-                    TrySetTile(i, 2, (TileType)i);
-                    TrySetTile(i, 5, (TileType)i);
-                    TrySetTile(i, 7, (TileType)i);
-                    TrySetTile(i+2, 7, (TileType)i);
-                    TrySetTile(i-1, 7, (TileType)i);
-                    TrySetTile(i-2, 7, (TileType)i);
-                    TrySetTile(i+1, 7, (TileType)i);
-                }
+                TrySetTile(i, 0, TileType.GRASS);
+            }
+            for (int i = 10; i < TileType.GetValues(typeof(TileType)).Length+10; i++) //basic test scene
+            {
+                TrySetTile(i, 0, (TileType)i);
             }
         }
 
@@ -50,11 +36,10 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 
         public void Update(GameWindow gameWindow, GameTime gameTime)
         {
-            
-            foreach (Tile tile in tiles)
+            foreach (Chunk chunk in chunks)
             {
-                if (tile == null) continue;
-                tile.Update(gameWindow, gameTime);
+                if (chunk == null) continue;
+                chunk.Update(gameWindow, gameTime);
             }
         }
 
@@ -80,13 +65,17 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
         {
             List<float> listVerticies = new List<float>();
             listVerticies.Clear();
-            foreach (Tile tile in tiles)
+            foreach (Chunk chunk in chunks)
             {
-                if (tile == null) continue;
-                float[] vertexData = tile.AssembleVertexData();
-                foreach (float vertex in vertexData)
+                if (chunk == null) continue;
+                foreach (Tile tile in chunk.Tiles)
                 {
-                    listVerticies.Add(vertex);
+                    if (tile == null) continue;
+                    float[] vertexData = tile.AssembleVertexData();
+                    foreach (float vertex in vertexData)
+                    {
+                        listVerticies.Add(vertex);
+                    }
                 }
             }
             verticies = listVerticies.ToArray();
@@ -96,19 +85,52 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
         public int CountTiles()
         {
             int count = 0;
-            foreach (Tile tile in tiles)
+            foreach (Chunk chunk in chunks)
             {
-                if (tile == null) continue;
-                count++;
+                if (chunk == null) continue;
+                foreach (Tile tile in chunk.Tiles)
+                {
+                    if (tile == null) continue;
+                    count++;
+                }
             }
             return count;
         }
 
+        public Chunk GetChunkAtCoord(float x, float y)
+        {
+            return GetChunkAtTile((int)(x / Tile.TILE_SIZE), (int)(y / Tile.TILE_SIZE));
+        }
+
+        public Chunk GetNearbyChunkAtCoord(float x, float y, int offsetX, int offsetY)
+        {
+            return GetChunkAtTile((int)(x / Tile.TILE_SIZE) + offsetX, (int)(y / Tile.TILE_SIZE) + offsetY);
+        }
+
+        private Chunk GetChunkAtTile(int x, int y)
+        {
+            if (x < 0 || y < 0 || x >= chunksX * chunkSize || y >= chunksY * chunkSize)
+            {
+                return null;
+            }
+            Chunk chunk = chunks[x / chunkSize, y / chunkSize];
+            if (chunk == null)
+            {
+                chunk = new Chunk(classManager);
+                chunks[x / chunkSize, y / chunkSize] = chunk;
+            }
+            return chunk;
+        }
+
         //make new one using enum
+        private void SetTileObject(int x, int y, Tile tile)
+        {
+            GetChunkAtTile(x, y).Tiles[x % chunkSize, y % chunkSize] = tile;
+        }
 
         private void SetDefaultTile(int x, int y, TileType tileType)
         {
-            tiles[x, y] = new Tile(this, x, y, tileType);
+            SetTileObject(x, y, new Tile(this, x, y, tileType));
             tilesModified = true;
             //add line to see if indexes (vet length) has changed
         }
@@ -120,7 +142,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             if (tileID <= 0)
             {
                 //remove tile
-                tiles[x, y] = null;
+                SetTileObject(x, y, null);
                 //update surrounding tiles
                 return;
             }
@@ -132,37 +154,40 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
                 switch (tileType)
                 {
                     case TileType.FLAG:
-                        tiles[x, y] = new Flag(this, x, y);
+                        SetTileObject(x, y, new Flag(this, x, y));
                         break;
                     case TileType.SNOWMAN:
-                        tiles[x, y] = new Snowman(this, x, y);
+                        SetTileObject(x, y, new Snowman(this, x, y));
                         break;
                     case TileType.COIN:
-                        tiles[x, y] = new Coin(this, x, y);
+                        SetTileObject(x, y, new Coin(this, x, y));
                         break;
                     case TileType.WATER:
-                        tiles[x, y] = new Water(this, x, y);
+                        SetTileObject(x, y, new Water(this, x, y));
                         break;
                     case TileType.CACTUS_PLANT:
-                        tiles[x, y] = new CactusPlant(this, x, y);
+                        SetTileObject(x, y, new CactusPlant(this, x, y));
                         break;
                     case TileType.TREE_PLANT:
-                        tiles[x, y] = new TreePlant(this, x, y);
+                        SetTileObject(x, y, new TreePlant(this, x, y));
                         break;
                     case TileType.WATERFALL:
-                        tiles[x, y] = new Waterfall(this, x, y);
+                        SetTileObject(x, y, new Waterfall(this, x, y));
+                        break;
+                    case TileType.GRASS:
+                        SetTileObject(x, y, new GrassBlock(this, x, y));
                         break;
                     default:
                         //error tile maybe?
                         break;
                 }
             }
-            tiles[x, y].UpdateState(true);
+            GetTile(x, y).UpdateState(true);
         }
 
         private bool WithinBounds(int x, int y)
         {
-            return x >= 0 && y >= 0 && x < tiles.GetLength(0) && y < tiles.GetLength(1);
+            return x >= 0 && y >= 0 && x < chunks.GetLength(0)*chunkSize && y < chunks.GetLength(1)*chunkSize;
         }
 
         public void TrySetTile(int x, int y, TileType tileType)
@@ -182,7 +207,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
             {
                 return null;
             }
-            return tiles[x, y];
+            return GetChunkAtTile(x, y).Tiles[x% chunkSize, y% chunkSize];
         }
 
         public TileType GetTileType(int x, int y)
@@ -200,14 +225,19 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
         {
             List<float> listVerticies = new List<float>();
             listVerticies.Clear();
-            foreach (Tile tile in tiles)
+            foreach (Chunk chunk in chunks)
             {
-                if (tile == null) continue;
-                if (tile.GetComponent<BoxCollider>() is null) continue;
-                float[] vertexData = tile.GetComponent<BoxCollider>().getLines();
-                foreach (float vertex in vertexData)
+                if (chunk == null) continue;
+                foreach (Tile tile in chunk.Tiles)
                 {
-                    listVerticies.Add(vertex);
+                    if (tile == null) continue;
+                    if (tile.GetComponent<BoxCollider>() is null) continue;
+                    float[] vertexData = tile.GetComponent<BoxCollider>().getLines();
+                    if (vertexData == null) continue;
+                    foreach (float vertex in vertexData)
+                    {
+                        listVerticies.Add(vertex);
+                    }
                 }
             }
             verticies = listVerticies.ToArray();

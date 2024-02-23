@@ -1,4 +1,5 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -8,7 +9,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
     class ParticleLayer : RenderLayerBase
     {
-        public ParticleLayer(string shaderPath) : base(shaderPath) {
+        private readonly ClassManager classManager;
+        public ParticleLayer(ClassManager classManager, string shaderPath) : base(shaderPath) {
+            this.classManager = classManager;
             textureSlotsUsed = 0;
         }
 
@@ -16,14 +19,15 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         {
             BufferLayout bufferLayout = new BufferLayout();
             bufferLayout.Add<float>(3); //xyz
+            bufferLayout.Add<float>(4); //rgb
             return bufferLayout;
         }
 
         protected override void LoadUniforms()
         {
-            GL.Uniform4(GL.GetUniformLocation(shader.ProgramId, "color"), new Vector4(1, 1, 1.0f, 1));
-            CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 1.0f);
+            //GL.Uniform4(GL.GetUniformLocation(shader.ProgramId, "color"), new Vector4(1, 0.0f, 0.0f, 1));
+            classManager.CameraManager.SetCameraUniform(shader.ProgramId);
+            classManager.CameraManager.SetCameraScaleUniform(shader.ProgramId, 1.0f);
         }
         protected override void UpdateArrayBuffer(float[] verticies, bool indexUpdate)
         {

@@ -56,9 +56,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         {
             //Console.WriteLine("indecies before: " + _indices.Length);
             //int numVerts = numQuads * 4;
-            uint[] indices = new uint[numQuads * 6];
+            uint[] indices = new uint[(numQuads+1) * 6];
 
-            for (int i = 0; i < numQuads; i++)
+            for (int i = 0; i <= numQuads; i++)
             {
                 int baseIndex = i * 4;
                 int baseOffset = i * 6;

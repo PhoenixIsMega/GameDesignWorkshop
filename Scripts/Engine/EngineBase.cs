@@ -47,8 +47,10 @@ namespace GameDesignLearningAppPrototype.Scripts
 
             gameWindow = DisplayManager.Instance.CreateWindow(_gameWindowSettings, _nativeWindowSettings); // Create the game window using the specified settings.
 
-            GL.ClearColor(new Color4(0.35f, 0.75f, 0.45f, 1f)); // Set the clear color, only needs to be set once as its constant, will be replaced by background at some point anyway
-
+            GL.ClearColor(new Color4(0.35f, 0.75f, 0.45f, 0.0f)); // Set the clear color, only needs to be set once as its constant, will be replaced by background at some point anyway
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            //GL.BlendFuncSeparate(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha, BlendingFactor.One, BlendingFactor.Zero);
             GameTime gameTime = new GameTime(); // Create a new GameTime instance.
 
             gameWindow.Load += LoadContent; // Subscribe to the Load event.

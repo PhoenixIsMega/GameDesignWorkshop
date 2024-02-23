@@ -9,6 +9,17 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
         private int tileX = 0;
         private int tileY = 0;
 
+        public TextureComponent() : base()
+        {
+            TextureID = 0;
+        }
+
+        public TextureComponent(int textureID) : this()
+        {
+            TextureID = textureID;
+        }
+
+
         public int TextureID
         {
             get { return textureID; }
@@ -22,11 +33,6 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
 
         public int TileX { get; private set; }
         public int TileY { get; private set; }
-
-        public TextureComponent()
-        {
-            TextureID = 0;
-        }
 
 
     }

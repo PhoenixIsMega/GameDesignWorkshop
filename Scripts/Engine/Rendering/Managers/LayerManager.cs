@@ -6,59 +6,61 @@ using System;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers.RenderLayerManagers
 {
-    class LayerManager
+    public class LayerManager
     {
-        PlayerLayer playerLayer;
-        ParticleLayer particleLayer;
-        TileLayer tileLayer;
-        GizmoLayer gizmoLayer;
-        CursorLayer cursorLayer;
-        PostProcessLayer postProcessLayer;
+        private readonly ClassManager classManager;
+        private readonly PlayerLayer playerLayer;
+        private readonly ParticleLayer particleLayer;
+        private readonly TileLayer tileLayer;
+        private readonly GizmoLayer gizmoLayer;
+        private readonly CursorLayer cursorLayer;
+        private readonly PostProcessLayer postProcessLayer;
         //ScreenTextLayer screenTextLayer;
-        BackgroundLayer backgroundLayer;
-        public LayerManager()
+        private readonly BackgroundLayer backgroundLayer;
+        public LayerManager(ClassManager classManager)
         {
-            playerLayer = new PlayerLayer("Assets/Shaders/ViewportTextureWithTransparency.shader");
-            particleLayer = new ParticleLayer("Assets/Shaders/SingleColor.shader");
-            tileLayer = new TileLayer("Assets/Shaders/Tile.shader");
-            gizmoLayer = new GizmoLayer("Assets/Shaders/SingleColor.shader");
+            this.classManager = classManager;
+            playerLayer = new PlayerLayer(classManager, "Assets/Shaders/ViewportTextureWithTransparency.shader");
+            particleLayer = new ParticleLayer(classManager, "Assets/Shaders/MultiColor.shader");
+            tileLayer = new TileLayer(classManager, "Assets/Shaders/Tile.shader");
+            gizmoLayer = new GizmoLayer(classManager, "Assets/Shaders/SingleColor.shader");
             cursorLayer = new CursorLayer("Assets/Shaders/Cursor.shader");
             postProcessLayer = new PostProcessLayer("Assets/Shaders/FrameBufferBase.shader");
             //screenTextLayer = new ScreenTextLayer("Assets/Shaders/ScreenText.shader");
-            backgroundLayer = new BackgroundLayer("Assets/Shaders/Background.shader");
+            backgroundLayer = new BackgroundLayer(classManager, "Assets/Shaders/Background.shader");
         }
 
-        public void LoadContent(PlayerManager playerManager, ParticleManager particleManager, TileManager tileManager, CursorManager cursorManager, BackgroundManager backgroundManager, GizmoManager gizmoManager)
+        public void LoadContent()
         {
             postProcessLayer.LoadContent(null);
-            backgroundLayer.LoadContent(backgroundManager.AssembleVertexData());
+            backgroundLayer.LoadContent(classManager.BackgroundManager.AssembleVertexData());
             backgroundLayer.UpdateIndexBuffer(4);
-            tileLayer.UpdateIndexBuffer(tileManager.CountTiles());
-            tileLayer.LoadContent(tileManager.CombineVertexData());
-            playerLayer.UpdateIndexBuffer(playerManager.CountTiles());
-            playerLayer.LoadContent(playerManager.AssembleVertexData());
-            particleLayer.UpdateIndexBuffer(particleManager.CountTiles());
-            particleLayer.LoadContent(particleManager.CombineVertexData());
-            gizmoLayer.LoadContent(gizmoManager.CombineVertexData());
+            tileLayer.UpdateIndexBuffer(classManager.TileManager.CountTiles());
+            tileLayer.LoadContent(classManager.TileManager.CombineVertexData());
+            playerLayer.UpdateIndexBuffer(classManager.PlayerManager.CountTiles());
+            playerLayer.LoadContent(classManager.PlayerManager.AssembleVertexData());
+            particleLayer.UpdateIndexBuffer(classManager.ParticleManager.CountTiles());
+            particleLayer.LoadContent(classManager.ParticleManager.CombineVertexData());
+            gizmoLayer.LoadContent(classManager.GizmoManager.CombineVertexData());
             //screenTextLayer.LoadContent(null);
-            cursorLayer.UpdateIndexBuffer(cursorManager.CountTiles());
-            cursorLayer.LoadContent(cursorManager.AssembleVertexData());
+            cursorLayer.UpdateIndexBuffer(classManager.CursorManager.CountTiles());
+            cursorLayer.LoadContent(classManager.CursorManager.AssembleVertexData());
         }
 
-        public void Render(PlayerManager playerManager, ParticleManager particleManager, TileManager tileManager, CursorManager cursorManager, BackgroundManager backgroundManager, GizmoManager gizmoManager)
+        public void Render(bool renderWireframe)
         {
             postProcessLayer.BindFrameBuffer();
-            gizmoLayer.Render(gizmoManager.CombineVertexData());
-            tileLayer.Render(tileManager.CombineVertexData());
-            tileLayer.UpdateIndexBuffer(tileManager.CountTiles());
-            playerLayer.Render(playerManager.AssembleVertexData());
-            particleLayer.UpdateIndexBuffer(particleManager.CountTiles());
-            particleLayer.Render(particleManager.CombineVertexData());
+            if (renderWireframe) gizmoLayer.Render(classManager.GizmoManager.CombineVertexData());
+            tileLayer.Render(classManager.TileManager.CombineVertexData());
+            tileLayer.UpdateIndexBuffer(classManager.TileManager.CountTiles());
+            playerLayer.Render(classManager.PlayerManager.AssembleVertexData());
+            particleLayer.UpdateIndexBuffer(classManager.ParticleManager.CountTiles());
+            particleLayer.Render(classManager.ParticleManager.CombineVertexData());
             //screenTextLayer.Render(null);//text go here
-            backgroundLayer.Render(backgroundManager.AssembleVertexData());
+            backgroundLayer.Render(classManager.BackgroundManager.AssembleVertexData());
             postProcessLayer.UnbindFrameBuffer();
             postProcessLayer.Render(null);
-            cursorLayer.Render(cursorManager.AssembleVertexData());
+            cursorLayer.Render(classManager.CursorManager.AssembleVertexData());
         }
     }
 }

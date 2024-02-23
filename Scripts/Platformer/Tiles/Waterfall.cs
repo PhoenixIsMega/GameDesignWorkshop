@@ -26,13 +26,13 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
         public Waterfall(TileManager tileManager, int x, int y) : base(tileManager, x, y, TileType.WATERFALL)
         {
             this.tileManager = tileManager;
-            animator = AddComponent<TextureAnimator>();
-            if (this.GetComponent<TextureComponent>() == null)
-            {
-                Console.WriteLine("Error : No texture component found");
-            }
+            animator = AddComponent<TextureAnimator>(GetComponent<TextureComponent>(), new int[2] { 115, 116 }, new TimeSpan(0, 0, 0, 0, 0, 125));
+            //if (this.GetComponent<TextureComponent>() == null)
+            //{
+            //    Console.WriteLine("Error : No texture component found");
+            //}
             //work out new way to do this below
-            animator.AssignVariables(this.GetComponent<TextureComponent>(), new int[2] { 115, 116 }, new TimeSpan(0, 0, 0, 0, 0, 125));//figure out better method?
+            //animator.AssignVariables(this.GetComponent<TextureComponent>(), new int[2] { 115, 116 }, new TimeSpan(0, 0, 0, 0, 0, 125));//figure out better method?
         }
 
         public override void Update(GameWindow gameWindow, GameTime gameTime)

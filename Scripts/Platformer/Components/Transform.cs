@@ -7,11 +7,23 @@
 
         private float scaleX = 1.0f;
         private float scaleY = 1.0f;
+        public Transform() : base()
+        {
+        }
+
+        public Transform(float x, float y, float scaleX, float slaceY) : this()
+        {
+            this.x = x;
+            this.y = y;
+            this.scaleX = scaleX;
+            this.scaleY = slaceY;
+        }
 
         public float X
         {
             get { return x; }
-            set { x = value; }
+            set { x = value; 
+            }
         }
 
         public float Y

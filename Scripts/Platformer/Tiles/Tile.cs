@@ -5,6 +5,7 @@ using GameDesignLearningAppPrototype.Scripts.Platformer.GameObjects;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
 using OpenTK.Windowing.Desktop;
 using System;
+using System.Transactions;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
 {
@@ -16,6 +17,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
         private readonly TileType tileType;
         private readonly int x, y;
         private readonly TileManager tileManager;
+        public static readonly float TILE_SIZE = 90.0f;
         public int X
         {
             get { return x; }
@@ -37,14 +39,14 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
         {
             quad = AddComponent<Quad>();
             texture = AddComponent<TextureComponent>();
-            boxCollider = AddComponent<BoxCollider>();
+            boxCollider = AddComponent<BoxCollider>(transform, quad, null);
 
-            quad.Width = 90.0f;
-            quad.Height = 90.0f;
+            quad.Width = TILE_SIZE;
+            quad.Height = TILE_SIZE;
 
             texture.TextureID = 26 - 1;
 
-            boxCollider.AssignVariables(transform, quad);
+            boxCollider.staticObject = true;
         }
 
         private Tile(TileManager tileManager, TileType tileType) : this() //remove need for texture id and just get from tiletype
@@ -67,8 +69,10 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
 
         public override float[] AssembleVertexData()
         {
-            float x = transform.X;
-            float y = transform.Y;
+            //float x = transform.X;
+            //float y = transform.Y;
+            float x = this.getWorldPosition().x;
+            float y = this.getWorldPosition().y;
             float width = quad.Width * transform.ScaleX;
             float height = quad.Height * transform.ScaleY;
             float tileX = 0.05f * texture.TileX;

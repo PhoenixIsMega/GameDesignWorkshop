@@ -9,8 +9,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
     class GizmoLayer : RenderLayerBase
     {
-
-        public GizmoLayer(string shaderPath) : base(shaderPath) {
+        private readonly ClassManager classManager;
+        public GizmoLayer(ClassManager classManager, string shaderPath) : base(shaderPath) {
+            this.classManager = classManager;
             textureSlotsUsed = 0;
         }
 
@@ -45,8 +46,8 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         protected override void LoadUniforms()
         {
             GL.Uniform4(GL.GetUniformLocation(shader.ProgramId, "color"), new Vector4(1f, 0.2f, 0.5f, 1));
-            CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 1.0f);
+            classManager.CameraManager.SetCameraUniform(shader.ProgramId);
+            classManager.CameraManager.SetCameraScaleUniform(shader.ProgramId, 1.0f);
         }
         protected override void UpdateArrayBuffer(float[] verticies, bool indexUpdate)
         {

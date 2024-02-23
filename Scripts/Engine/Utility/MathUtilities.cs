@@ -7,7 +7,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Utility
     public static class MathUtilities
     {
         // Linearly interpolate between two values
-        private static float Lerp(float a, float b, float t) //could change to start, end and amount
+        public static float Lerp(float a, float b, float t) //could change to start, end and amount
         {
             return (1 - t) * a + t * b; //t must be between 0-1
         }
@@ -31,6 +31,11 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Utility
                 return 0;
             }
             return normalisedValue;
+        }
+
+        public static float Clamp(float value, float min, float max)
+        {
+            return Math.Max(min, Math.Min(value, max));
         }
 
         public static int GetSizeOfVertexAttribPointerType(VertexAttribPointerType attribPointerType)

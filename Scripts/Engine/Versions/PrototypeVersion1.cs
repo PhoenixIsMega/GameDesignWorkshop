@@ -1,7 +1,13 @@
-﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
+﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.DataTypes;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers.RenderLayerManagers;
 using GameDesignLearningAppPrototype.Scripts.Menu.Managers;
+using GameDesignLearningAppPrototype.Scripts.Platformer;
+using GameDesignLearningAppPrototype.Scripts.Platformer.Components;
+using GameDesignLearningAppPrototype.Scripts.Platformer.GameObjects;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Managers;
+using GameDesignLearningAppPrototype.Scripts.Platformer.Particles;
+using GameDesignLearningAppPrototype.Scripts.Platformer.Players;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Tiles;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -11,59 +17,77 @@ using System;
 
 namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
 {
-    internal class PrototypeVersion1 : EngineBase
+    public class PrototypeVersion1 : EngineBase
     {
         public PrototypeVersion1(string windowTitle, int initialWindowWidth, int initialWindowHeight) : base(windowTitle, initialWindowWidth, initialWindowHeight)
         {
         }
 
-        private TileManager tileManager;
-        private ParticleManager particleManager;
-        private PlayerManager playerManager;
-        private CursorManager cursorManager;
-        private BackgroundManager backgroundManager;
-        private GizmoManager gizmoManager;
+        private bool renderWireframe = false;
+        private ClassManager classManager;
 
-        private LayerManager layerManager;
+        private Player player;
 
         //make camera manager not a singleton
         protected override void Initialise()
         {
             Console.WriteLine("Initalise");
-            playerManager = new PlayerManager();
-            layerManager = new LayerManager();
-            particleManager = new ParticleManager(this);
-            tileManager = new TileManager();
-            cursorManager = new CursorManager(tileManager);
-            backgroundManager = new BackgroundManager();
-            gizmoManager = new GizmoManager(tileManager , playerManager);
+            classManager = new ClassManager(this);
+            //cameraManager = new CameraManager();
         }
 
         protected override void LoadContent()
         {
             Console.WriteLine("Load");
-            layerManager.LoadContent(playerManager, particleManager, tileManager, cursorManager, backgroundManager, gizmoManager);
+            classManager.LayerManager.LoadContent();
             gameWindow.CursorState = OpenTK.Windowing.Common.CursorState.Hidden;
+
+            //load scene
+            player = classManager.PlayerManager.createPlayer(); //creates player if hasnt already been made
+            GameObjectBase cameraFollow = new EmptyGameObject();
+            player.addChild(cameraFollow);
+            cameraFollow.GetComponent<Transform>().X = player.GetSize().sizeX/2;
+            cameraFollow.GetComponent<Transform>().Y = player.GetSize().sizeY/2 + 150;
+            classManager.CameraManager.SetTarget(cameraFollow);
+            ParticleEmitter snowfall = classManager.ParticleManager.createParticleEmitter(classManager, 4000.0f, 0.01f);
+            snowfall.GetComponent<Transform>().Y = 740;
+            snowfall.randomVelocityXMax = 6;
+            snowfall.randomVelocityXMin = -6;
+            Particle snowflake = new Particle();
+            snowflake.startSize = 9.5f;
+            snowflake.endSize = 9.5f;
+            snowflake.lifetimeMax = 75;
+            snowflake.rotationspeed = 15;
+            snowflake.startColor = new Color(255, 255, 255, 255);
+            snowflake.endColor = new Color(255, 255, 255, 0);
+            snowflake.GetComponent<PhysicsComponent>().gravity = true;
+            snowfall.SetParticleToSpawn(snowflake);
+            classManager.CameraManager.GetMainCamera().addChild(snowfall);
+
         }
 
 
         protected override void Update(GameTime gameTime)
         {
             KeyboardState input = gameWindow.KeyboardState;
-            if (input.IsKeyDown(Keys.Escape))
+            if (input.IsKeyPressed(Keys.Escape))
             {
                 gameWindow.Close();
             }
 
-            playerManager.Update(gameWindow, gameTime);
-            particleManager.Update(gameWindow, gameTime);
-            cursorManager.Update(gameWindow, gameTime);
-            tileManager.Update(gameWindow, gameTime);
-            CameraManager.Instance.Update(gameWindow, gameTime);
+            if (input.IsKeyPressed(Keys.B))
+            {
+                renderWireframe = !renderWireframe;
+            }
 
-            //please update this later
-            CameraManager.Instance.SetCameraPosition(getPlayerLocation().Item1 - gameWindow.Size.X / 2 + playerManager.GetPlayerSize().Item1 / 2, getPlayerLocation().Item2 - gameWindow.Size.Y / 4 + playerManager.GetPlayerSize().Item2 / 2);
-        }
+            if (input.IsKeyPressed(Keys.P))
+            {
+                player.GetComponent<PhysicsComponent>().gravity = !player.GetComponent<PhysicsComponent>().gravity;
+                player.GetComponent<BoxCollider>().enabled = !player.GetComponent<BoxCollider>().enabled;
+            }
+
+            classManager.Update(gameWindow, gameTime);
+            }
 
         float scale = 1;
 
@@ -79,13 +103,13 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
             CameraManager.Instance.SetCameraScale(scale);
             */
 
-            cursorManager.cursor.tileType = cursorManager.cursor.tileType + (int)e.OffsetY;
-            if (cursorManager.cursor.tileType < TileType.AIR)
+            classManager.CursorManager.cursor.tileType = classManager.CursorManager.cursor.tileType + (int)e.OffsetY;
+            if (classManager.CursorManager.cursor.tileType < TileType.AIR)
             {
-                cursorManager.cursor.tileType = TileType.AIR;
-            } else if (cursorManager.cursor.tileType > TileType.WATERFALL)
+                classManager.CursorManager.cursor.tileType = TileType.AIR;
+            } else if (classManager.CursorManager.cursor.tileType > TileType.WATERFALL)
             {
-                cursorManager.cursor.tileType = TileType.WATERFALL;
+                classManager.CursorManager.cursor.tileType = TileType.WATERFALL;
             }
         }
 
@@ -93,7 +117,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
         {
             GL.Clear(ClearBufferMask.ColorBufferBit); // Clear the color 
 
-            layerManager.Render(playerManager, particleManager, tileManager, cursorManager, backgroundManager, gizmoManager);
+            classManager.LayerManager.Render(renderWireframe);
 
 
         }
@@ -104,9 +128,9 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Versions
             Console.WriteLine("Unload");
         }
 
-        public (float, float) getPlayerLocation()
+        /*public (float, float) getPlayerLocation()
         {
-            return playerManager.GetPlayerPosition();
-        }
+            return classManager.PlayerManager.GetPlayerPosition();
+        }*/
     }
 }

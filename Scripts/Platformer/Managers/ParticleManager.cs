@@ -1,5 +1,6 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
 using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Engine.Versions;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Particles;
 using OpenTK.Windowing.Desktop;
@@ -9,49 +10,31 @@ using System.Linq;
 
 namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 {
-    class ParticleManager
+    public class ParticleManager
     {
-        public List<Particle> particles = new List<Particle>();
-        private Random random = new Random();
-        private PrototypeVersion1 game;
-        public ParticleManager(PrototypeVersion1 game)
+        private readonly ClassManager classManager;
+        public List<ParticleEmitter> particleEmitters = new List<ParticleEmitter>();
+
+        public ParticleManager(ClassManager classManager)
         {
-            particles.Add(new Particle());
-            particles[0].Move(300, 300);
-            this.game = game;
+            this.classManager = classManager;
+        }
+
+        public ParticleEmitter createParticleEmitter(params object[] constructorArgs)
+        {
+            ParticleEmitter particleEmitter = (ParticleEmitter)Activator.CreateInstance(typeof(ParticleEmitter), constructorArgs);
+            particleEmitters.Add(particleEmitter); //add children to gameobject to fix this inheritance issue
+            //particleEmitters[0].randomVelocityX = 0.1f;
+            return particleEmitter;
         }
 
         public void Update(GameWindow gameWindow, GameTime gameTime)
         {
-
-            foreach (Particle particle in particles.ToList())
+            foreach (ParticleEmitter particleEmitter in particleEmitters.ToList())
             {
-                particle.Update(gameWindow, gameTime);
-                particle.Move(particle.GetCoords().Item1, particle.GetCoords().Item2-15);
-                particle.lifetime++;
-                if (particle.lifetime > 50)
-                {
-                    particles.Remove(particle);
-                    particle.Dispose();
-                }
+                particleEmitter.Update(gameWindow, gameTime);
             }
-
-            //if (particles[particles.Count - 1].lifetime == 1 && particles.Count < 200)
-            if (particles.Count < 200)
-            { //I KNOW THIS IS BAD BUT ILL OPTIMISE LATER
-                Particle newparticle = new Particle();
-                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
-                particles.Add(newparticle);
-                newparticle = new Particle();
-                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
-                particles.Add(newparticle);
-                newparticle = new Particle();
-                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
-                particles.Add(newparticle);
-                newparticle = new Particle();
-                newparticle.Move(random.Next((int)game.getPlayerLocation().Item1 - ((int)(740 * 2)), (int)game.getPlayerLocation().Item1 + ((int)(740 * 2))), (int)game.getPlayerLocation().Item2 + 430);
-                particles.Add(newparticle);
-            }
+            //Console.WriteLine("Particle count: " + CountTiles());
         }
 
         public float[] CombineVertexData()
@@ -60,14 +43,17 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 
             float[] vertexData;
 
-            foreach (Particle particle in particles)
+            foreach (ParticleEmitter particleEmitter in particleEmitters.ToList())
             {
-                if (particle == null) continue;
-                vertexData = particle.AssembleVertexData();
-                if(vertexData == null) { continue; }
-                foreach (float vertex in vertexData)
+                foreach (Particle particle in particleEmitter.particles)
                 {
-                    listVerticies.Add(vertex);
+                    if (particle == null) continue;
+                    vertexData = particle.AssembleVertexData();
+                    if (vertexData == null) { continue; }
+                    foreach (float vertex in vertexData)
+                    {
+                        listVerticies.Add(vertex);
+                    }
                 }
             }
             float[] verticies = listVerticies.ToArray();
@@ -76,7 +62,13 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
 
         public int CountTiles()
         {
-            return particles.Count;
+            int count = 0;
+            foreach (ParticleEmitter particleEmitter in particleEmitters.ToList())
+            {
+                if (particleEmitter.particles == null) continue;
+                count += particleEmitter.particles.Count;
+            }
+            return count;
         }
     }
 }

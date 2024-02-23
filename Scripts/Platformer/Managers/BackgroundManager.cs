@@ -1,4 +1,5 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.DataTypes;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Components;
 using OpenTK.Graphics.OpenGL4;
 using System;
@@ -17,10 +18,17 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
         LUSH
     }
 
-    internal class BackgroundManager
+    public class BackgroundManager
     {
-        private Backgrounds currentBackground = Backgrounds.PLAINS_1;
+        private Backgrounds currentBackground = Backgrounds.LUSH;
         float[] verticies;
+
+        private readonly ClassManager classManager;
+
+        public BackgroundManager(ClassManager classManager)
+        {
+            this.classManager = classManager;
+        }
 
         public float[] AssembleVertexData()
         {
@@ -29,12 +37,12 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Managers
                                                         //reset if viewport changes
                                                         //Console.WriteLine("Viewport: " + viewport[2] + " " + viewport[3]);
             float width = viewport[2];
-            float x =  width * ((int)CameraManager.Instance.GetCameraLocation().X / (viewport[2])-1);
-            float x2 = width * (((int)CameraManager.Instance.GetCameraLocation().X / (viewport[2])));
-            float x3 = width * (((int)CameraManager.Instance.GetCameraLocation().X / (viewport[2])) + 1);
-            float x4 = width * (((int)CameraManager.Instance.GetCameraLocation().X / (viewport[2])) + 2);
-            float x5 = width * (((int)CameraManager.Instance.GetCameraLocation().X / (viewport[2])) + 3);
-            float x6 = width * (((int)CameraManager.Instance.GetCameraLocation().X / (viewport[2])) -2);
+            float x =  width * ((int)classManager.CameraManager.GetCameraLocation().X / (viewport[2])-1);
+            float x2 = width * (((int)classManager.CameraManager.GetCameraLocation().X / (viewport[2])));
+            float x3 = width * (((int)classManager.CameraManager.GetCameraLocation().X / (viewport[2])) + 1);
+            float x4 = width * (((int)classManager.CameraManager.GetCameraLocation().X / (viewport[2])) + 2);
+            float x5 = width * (((int)classManager.CameraManager.GetCameraLocation().X / (viewport[2])) + 3);
+            float x6 = width * (((int)classManager.CameraManager.GetCameraLocation().X / (viewport[2])) -2);
 
             //float x = width * 2;
             //Console.WriteLine("X: " + x);

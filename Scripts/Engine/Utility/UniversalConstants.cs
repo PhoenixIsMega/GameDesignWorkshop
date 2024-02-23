@@ -8,6 +8,6 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Utility
 {
     public static class UniversalConstants
     {
-        public static float gravity = 2;
+        public static float gravity = -0.981f;
     }
 }

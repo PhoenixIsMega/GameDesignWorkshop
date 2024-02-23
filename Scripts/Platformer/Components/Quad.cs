@@ -7,6 +7,17 @@
 
         private float rotationAngle = 0.0f;
 
+        public Quad() : base()
+        {
+        }
+
+        public Quad(float width, float height, float rotationAngle) : this()
+        {
+            this.width = width;
+            this.height = height;
+            this.rotationAngle = rotationAngle;
+        }
+
         public float Width
         {
             get { return width; }

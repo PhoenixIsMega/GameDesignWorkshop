@@ -16,14 +16,20 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Components
         TextureComponent texture;
         TimeSpan timeSinceLastFrame = TimeSpan.Zero;
         bool paused = false;
-        public TextureAnimator() { }
 
-        public void AssignVariables(TextureComponent texture, int[] frameIDs, TimeSpan animationSpeed)
-        {
+        public TextureAnimator() : base() { }
+        public TextureAnimator(TextureComponent texture, int[] frameIDs, TimeSpan animationSpeed) : this() {
             this.frameIDs = frameIDs;
             this.animationSpeed = animationSpeed;
             this.texture = texture;
         }
+
+        /*public void AssignVariables(TextureComponent texture, int[] frameIDs, TimeSpan animationSpeed)
+        {
+            this.frameIDs = frameIDs;
+            this.animationSpeed = animationSpeed;
+            this.texture = texture;
+        }*/
 
         public void NextFrame()
         {

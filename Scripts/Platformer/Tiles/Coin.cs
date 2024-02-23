@@ -17,13 +17,14 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
         //could add random offset to make look cooler??
         private TextureAnimator animator;
         public Coin(TileManager tileManager, int x, int y) : base(tileManager, x, y, TileType.COIN) {
-            animator = AddComponent<TextureAnimator>();
-            if (this.GetComponent<TextureComponent>() == null)
+            animator = AddComponent<TextureAnimator>(this.GetComponent<TextureComponent>(), new int[2] { 32, 33 }, new TimeSpan(0, 0, 0, 0, 0, 250));
+            /*if (this.GetComponent<TextureComponent>() == null)
             {
                 Console.WriteLine("Error : No texture component found");
             }
             //work out new way to do this below
             animator.AssignVariables(this.GetComponent<TextureComponent>(), new int[2] { 32, 33 }, new TimeSpan(0, 0, 0, 0, 0, 250));//figure out better method?
+        */
         }
 
         public override void Update(GameWindow gameWindow, GameTime gameTime)

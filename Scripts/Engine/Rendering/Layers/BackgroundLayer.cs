@@ -12,8 +12,10 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 {
     public class BackgroundLayer : RenderLayerBase
     {
-        public BackgroundLayer(string shaderPath) : base(shaderPath)
+        private readonly ClassManager classManager;
+        public BackgroundLayer(ClassManager classManager, string shaderPath) : base(shaderPath)
         {
+            this.classManager = classManager;
             textureSlotsUsed = 1;
         }
 
@@ -28,8 +30,8 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
 
         protected override void LoadUniforms()
         {
-            CameraManager.Instance.SetCameraUniform(shader.ProgramId);
-            CameraManager.Instance.SetCameraScaleUniform(shader.ProgramId, 0.5f);
+            classManager.CameraManager.SetCameraUniform(shader.ProgramId);
+            classManager.CameraManager.SetCameraScaleUniform(shader.ProgramId, 0.5f);
         }
 
         protected override void LoadTextures()

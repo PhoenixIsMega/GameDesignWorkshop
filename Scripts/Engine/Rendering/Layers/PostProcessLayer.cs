@@ -95,7 +95,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Disable(EnableCap.DepthTest);
-            GL.ClearColor(1.0f, 1.0f, 0.0f, 1.0f); //yellow
+            GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f); //yellow
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             ErrorCode errorCode = GL.GetError();
             if (errorCode != ErrorCode.NoError)
@@ -112,7 +112,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Layers
             }
             frameBuffer.Bind();
             GL.Enable(EnableCap.DepthTest);
-            GL.ClearColor(0.0f, 0.0f, 1.0f, 1.0f); //blue
+            GL.ClearColor(0.0f, 0.0f, 1.0f, 0.0f); //blue
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             ErrorCode errorCode = GL.GetError();
             if (errorCode != ErrorCode.NoError)

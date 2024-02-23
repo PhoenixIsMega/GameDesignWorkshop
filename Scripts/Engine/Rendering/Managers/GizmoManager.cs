@@ -10,12 +10,14 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
 {
     public class GizmoManager
     {
-        TileManager tileManager;
-        PlayerManager playerManager;
-        public GizmoManager(TileManager tileManager, PlayerManager playerManager)
+        private readonly ClassManager classManager;
+        private readonly TileManager tileManager;
+        private readonly PlayerManager playerManager;
+        public GizmoManager(ClassManager classManager)
         {
-            this.tileManager = tileManager;
-            this.playerManager = playerManager;
+            this.classManager = classManager;
+            this.tileManager = classManager.TileManager;
+            this.playerManager = classManager.PlayerManager;
         }
 
         int lineCount = 0;
@@ -28,16 +30,22 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers
             float[] tileLines = tileManager.getColliderLines();
             float[] playerLines = playerManager.getColliderLines();
 
-            foreach (float vertex in tileLines)
+            if (tileLines != null)
             {
-                listVerticies.Add(vertex);
-                lineCount++;
+                foreach (float vertex in tileLines)
+                {
+                    listVerticies.Add(vertex);
+                    lineCount++;
+                }
             }
 
-            foreach (float vertex in playerLines)
+            if(playerLines != null)
             {
-                listVerticies.Add(vertex);
-                lineCount++;
+                foreach (float vertex in playerLines)
+                {
+                    listVerticies.Add(vertex);
+                    lineCount++;
+                }
             }
             //Console.WriteLine(lineCount);
             float[] verticies = listVerticies.ToArray();

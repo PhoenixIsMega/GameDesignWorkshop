@@ -170,6 +170,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Platformer.Tiles
                 case TileType.FLAG:
                 case TileType.WATER:
                 case TileType.WATERFALL:
+                case TileType.GRASS:
                     return true;
                 default:
                     return false;

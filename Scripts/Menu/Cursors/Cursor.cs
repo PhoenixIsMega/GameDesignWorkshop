@@ -1,4 +1,5 @@
 ﻿using GameDesignLearningAppPrototype.Scripts.Engine;
+using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers;
 using GameDesignLearningAppPrototype.Scripts.Engine.Rendering.Managers.RenderLayerManagers;
 using GameDesignLearningAppPrototype.Scripts.Platformer.Components;
 using GameDesignLearningAppPrototype.Scripts.Platformer.GameObjects;
@@ -23,10 +24,12 @@ namespace GameDesignLearningAppPrototype.Scripts.Menu.Cursors
         private bool mouseDown = false;
 
         //make it so width height are always 90 and scale is always 1
+        private readonly ClassManager classManager;
         private readonly TileManager tileManager;
-        public Cursor(TileManager tileManager) : base()
+        public Cursor(ClassManager classManager) : base()
         {
-            this.tileManager = tileManager;
+            this.classManager = classManager;
+            this.tileManager = classManager.TileManager;
             quad = AddComponent<Quad>();
             texture = AddComponent<TextureComponent>();
 
@@ -75,8 +78,8 @@ namespace GameDesignLearningAppPrototype.Scripts.Menu.Cursors
                 mouseDown = true;
                 transform.ScaleX = 0.8f;
                 transform.ScaleY = 0.8f;
-                float tileX = (gameWindow.MousePosition.X + CameraManager.Instance.GetCameraLocation().X) / 90;
-                float tileY = (float)(((CameraManager.Instance.GetCameraLocation().Y + 300) + (-gameWindow.MousePosition.Y + 720 - (3.5 * 90))) / 90);
+                float tileX = (gameWindow.MousePosition.X + classManager.CameraManager.GetCameraLocation().X) / 90;
+                float tileY = (float)(((classManager.CameraManager.GetCameraLocation().Y + 300) + (-gameWindow.MousePosition.Y + 720 - (3.5 * 90))) / 90);
                 if(!tileManager.GetTileType((int)tileX, (int)tileY).Equals(tileType)) {
                     tileManager.TrySetTile((int)tileX, (int)tileY, tileType);
                     tileManager.UpdateSurroundingState((int)tileX, (int)tileY);
@@ -85,8 +88,8 @@ namespace GameDesignLearningAppPrototype.Scripts.Menu.Cursors
             {
                 transform.ScaleX = 0.8f;
                 transform.ScaleY = 0.8f;
-                float tileX = (gameWindow.MousePosition.X + CameraManager.Instance.GetCameraLocation().X) / 90;
-                float tileY = (float)(((CameraManager.Instance.GetCameraLocation().Y + 300) + (-gameWindow.MousePosition.Y + 720 - (3.5 * 90))) / 90);
+                float tileX = (gameWindow.MousePosition.X + classManager.CameraManager.GetCameraLocation().X) / 90;
+                float tileY = (float)(((classManager.CameraManager.GetCameraLocation().Y + 300) + (-gameWindow.MousePosition.Y + 720 - (3.5 * 90))) / 90);
                 tileManager.TrySetTile((int)tileX, (int)tileY, TileType.AIR);
                 tileManager.UpdateSurroundingState((int)tileX, (int)tileY);
             }

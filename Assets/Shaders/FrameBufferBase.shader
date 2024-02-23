@@ -21,7 +21,7 @@ uniform sampler2D screenTexture;
 
 void main() 
 {
-    vec3 texColor = texture(screenTexture, texCoord).rgb;
+    vec4 texColor = texture(screenTexture, texCoord).rgba;
 	//if(texColor.a < 0.1)
     //    discard;
     
@@ -29,5 +29,5 @@ void main()
     //float average = 0.2126 * outputColor.r + 0.7152 * outputColor.g + 0.0722 * outputColor.b;
     //outputColor = vec4(average, average, average, 1.0);
     
-	outputColor = vec4(texColor, 1.0);
+	outputColor = texColor;
 }

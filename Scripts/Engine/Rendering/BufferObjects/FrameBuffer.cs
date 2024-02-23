@@ -25,7 +25,7 @@ namespace GameDesignLearningAppPrototype.Scripts.Engine.Rendering.BufferObjects
             GL.GetInteger(GetPName.Viewport, viewport); // Get the viewport dimensions
             //reset if viewport changes
             //Console.WriteLine("Viewport: " + viewport[2] + " " + viewport[3]);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, viewport[2], viewport[3], 0, PixelFormat.Rgb, PixelType.UnsignedByte, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, viewport[2], viewport[3], 0, PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest); // Set texture minification filter
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest); // Set texture magnification filter
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat); // Set texture wrap mode for the S coordinate
